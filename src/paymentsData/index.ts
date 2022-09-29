@@ -56,6 +56,11 @@ const metricDateRanges = [
   },
 ];
 
+const getFormattedTimePeriod = ({ startDate, endDate }) =>
+  `${formatISO(startDate, {
+    representation: 'date',
+  })} | ${formatISO(endDate, { representation: 'date' })}`;
+
 const calculateTranxPercentAndAvgTime = (dateRange) => {
   const startDate = startOfDay(dateRange.startDate),
     endDate = endOfDay(dateRange.endDate);
@@ -80,9 +85,7 @@ const calculateTranxPercentAndAvgTime = (dateRange) => {
   }
 
   return {
-    timePeriod: `${formatISO(startDate, {
-      representation: 'date',
-    })} | ${formatISO(endDate, { representation: 'date' })}`,
+    timePeriod: getFormattedTimePeriod({ startDate, endDate }),
     zeroConfTranxPercent: !totalTranxCount
       ? 0
       : (zeroConfTranxCountTotal * 100) / totalTranxCount,
@@ -202,9 +205,10 @@ const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
       metricKey
     );
     metricsOfDateRange.push({
-      timePeriod: `${formatISO(currentDate, {
-        representation: 'date',
-      })} | ${formatISO(endDateOfPeriod, { representation: 'date' })}`,
+      timePeriod: getFormattedTimePeriod({
+        startDate: currentDate,
+        endDate: endDateOfPeriod,
+      }),
       ...mergeMetricsForTimePeriod(
         baseMetricsInDateRange,
         metricsForTimePeriod
