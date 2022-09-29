@@ -3,6 +3,8 @@ import {
   tranxPercentsAndTimes,
   uniqueUserWallets,
   uniquePaymentMethods,
+  userWalletsInDateRangeByGranularity,
+  paymentMethodsInDateRangeByGranularity,
 } from './paymentData/index';
 
 function App() {
@@ -23,6 +25,12 @@ function App() {
         ))}
         {uniquePaymentMethods.map((pm) => (
           <p>{pm.join(',')}</p>
+        ))}
+        {userWalletsInDateRangeByGranularity.map((metrics) => (
+          <p>{JSON.stringify(metrics)}</p>
+        ))}
+        {paymentMethodsInDateRangeByGranularity.map((metrics) => (
+          <p>{JSON.stringify(metrics)}</p>
         ))}
       </>
     </div>
