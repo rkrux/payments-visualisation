@@ -1,38 +1,33 @@
 import './App.css';
-import {
-  tranxPercentsAndTimes,
-  uniqueUserWalletsInDateRange,
-  uniquePaymentMethodsInDateRange,
-  userWalletsInDateRangeByGranularity,
-  paymentMethodsInDateRangeByGranularity,
-} from './paymentData/index.ts';
+import { fetchPaymentsData } from './paymentsData/index.ts';
+import { useQuery } from 'react-query';
+
+function usePaymentsQuery(dateRange) {
+  return useQuery(['payments', dateRange], async () => {
+    const data = await fetchPaymentsData(dateRange);
+    return data;
+  });
+}
 
 function App() {
+  const { isLoading, isError, error, data } = usePaymentsQuery({
+    startDate: new Date('2021-01-01'),
+    endDate: new Date('2021-05-31'),
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>{JSON.stringify(error)}</div>;
+  }
+
   return (
-    <div className="App">
-      <>
-        {tranxPercentsAndTimes.map((result) => (
-          <p>
-            <div>{`${result.dateRange.startDate} -> ${result.dateRange.endDate}`}</div>
-            <div>{result.zeroConfTranxPercent.toFixed(2)} %</div>
-            <div>{result.onchainConfTranxPercent.toFixed(2)} %</div>
-            <div>{result.zeroConfTranxAvgSpeed.toFixed(2)} mins</div>
-            <div>{result.onchainConfTranxAvgSpeed.toFixed(2)} hrs</div>
-          </p>
-        ))}
-        {uniqueUserWalletsInDateRange.map((userWallets) => (
-          <p>{userWallets.join(',')}</p>
-        ))}
-        {uniquePaymentMethodsInDateRange.map((pm) => (
-          <p>{pm.join(',')}</p>
-        ))}
-        {userWalletsInDateRangeByGranularity.map((metrics) => (
-          <p>{JSON.stringify(metrics)}</p>
-        ))}
-        {paymentMethodsInDateRangeByGranularity.map((metrics) => (
-          <p>{JSON.stringify(metrics)}</p>
-        ))}
-      </>
+    <div>
+      <p>{JSON.stringify(data.tranxPercentsAndTimes)}</p>
+      <p>{JSON.stringify(data.userWalletsInDateRangeByGranularity)}</p>
+      <p>{JSON.stringify(data.paymentMethodsInDateRangeByGranularity)}</p>
     </div>
   );
 }
