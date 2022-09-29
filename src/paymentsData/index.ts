@@ -221,7 +221,7 @@ const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
 };
 
 const rollUpGranularMetrics = (granularMetrics) => {
-  return granularMetrics.reduce(
+  const rolledUpMetricsMap = granularMetrics.reduce(
     (rolledUpMetrics, metricsForTimePeriod, index) => {
       if (index === 0) {
         const baseValue = { ...metricsForTimePeriod };
@@ -236,6 +236,11 @@ const rollUpGranularMetrics = (granularMetrics) => {
     },
     {}
   );
+
+  return Object.entries(rolledUpMetricsMap).map(([key, value]) => ({
+    metricKey: key,
+    metricValue: value,
+  }));
 };
 
 const fetchPaymentsData = async (dateRange) => {
