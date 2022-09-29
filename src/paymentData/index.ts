@@ -212,9 +212,9 @@ const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
       metricKey
     );
     metricsOfDateRange.push({
-      dateRange: `${formatISO(currentDate, {
+      timePeriod: `${formatISO(currentDate, {
         representation: 'date',
-      })} <-> ${formatISO(endDateOfPeriod, { representation: 'date' })}`,
+      })} | ${formatISO(endDateOfPeriod, { representation: 'date' })}`,
       ...mergeMetricsForTimePeriod(
         baseMetricsInDateRange,
         metricsForTimePeriod

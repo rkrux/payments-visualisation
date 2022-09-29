@@ -5,7 +5,7 @@ import {
   uniquePaymentMethodsInDateRange,
   userWalletsInDateRangeByGranularity,
   paymentMethodsInDateRangeByGranularity,
-} from './paymentData/index';
+} from './paymentData/index.ts';
 
 function App() {
   return (
