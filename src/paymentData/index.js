@@ -1,7 +1,34 @@
 import paymentsByDate from './paymentsByDate';
 import { formatISO, add } from 'date-fns';
 
-const queryData = (dateRange) => {
+const dateRanges = [
+  {
+    startDate: new Date('2021-01-01'),
+    endDate: new Date('2021-01-31'),
+  },
+  {
+    startDate: new Date('2021-02-01'),
+    endDate: new Date('2021-02-28'),
+  },
+  {
+    startDate: new Date('2021-03-01'),
+    endDate: new Date('2021-03-31'),
+  },
+  {
+    startDate: new Date('2021-04-01'),
+    endDate: new Date('2021-04-30'),
+  },
+  {
+    startDate: new Date('2021-05-01'),
+    endDate: new Date('2021-05-31'),
+  },
+  {
+    startDate: new Date('2021-01-01'),
+    endDate: new Date('2021-05-31'),
+  },
+];
+
+const calculateTranxPercentAndTime = (dateRange) => {
   const { startDate, endDate } = dateRange;
   let currentDate = startDate,
     zeroConfTranxCountTotal = 0,
@@ -11,13 +38,12 @@ const queryData = (dateRange) => {
     onchainConfTimeSecsTotal = 0;
 
   while (currentDate <= endDate) {
-    const paymentsOnDate =
-      paymentsByDate[formatISO(currentDate, { representation: 'date' })];
+    const formattedDate = formatISO(currentDate, { representation: 'date' });
+    const paymentsOnDate = paymentsByDate[formattedDate];
 
     totalTranxCount += paymentsOnDate.totalTranxCount;
     zeroConfTranxCountTotal += paymentsOnDate.zeroConfTranxCount;
     onchainConfTranxCountTotal += paymentsOnDate.onchainConfTranxCount;
-
     zeroConfTimeSecsTotal += paymentsOnDate.zeroConfTranxTimeSecs;
     onchainConfTimeSecsTotal += paymentsOnDate.onchainConfTranxTimeSecs;
 
@@ -32,6 +58,9 @@ const queryData = (dateRange) => {
     zeroConfTranxPercent: !totalTranxCount
       ? 0
       : (zeroConfTranxCountTotal * 100) / totalTranxCount,
+    onchainConfTranxPercent: !totalTranxCount
+      ? 0
+      : (onchainConfTranxCountTotal * 100) / totalTranxCount,
     zeroConfTranxAvgSpeed: !zeroConfTranxCountTotal
       ? 0
       : zeroConfTimeSecsTotal / (zeroConfTranxCountTotal * 60),
@@ -40,32 +69,47 @@ const queryData = (dateRange) => {
       : onchainConfTimeSecsTotal / (onchainConfTranxCountTotal * 3600),
   };
 };
+const tranxPercentsAndTimes = dateRanges.map((dr) =>
+  calculateTranxPercentAndTime(dr)
+);
 
-const values = [
-  queryData({
-    startDate: new Date('2021-01-01'),
-    endDate: new Date('2021-01-31'),
-  }),
-  queryData({
-    startDate: new Date('2021-02-01'),
-    endDate: new Date('2021-02-28'),
-  }),
-  queryData({
-    startDate: new Date('2021-03-01'),
-    endDate: new Date('2021-03-31'),
-  }),
-  queryData({
-    startDate: new Date('2021-04-01'),
-    endDate: new Date('2021-04-30'),
-  }),
-  queryData({
-    startDate: new Date('2021-04-01'),
-    endDate: new Date('2021-04-31'),
-  }),
-  queryData({
-    startDate: new Date('2021-01-01'),
-    endDate: new Date('2021-05-31'),
-  }),
-];
+const getUniqueUserWallets = (dateRange) => {
+  const { startDate, endDate } = dateRange;
+  const uniqueUserWallets = new Set();
+  let currentDate = startDate;
 
-export default values;
+  while (currentDate <= endDate) {
+    const formattedDate = formatISO(currentDate, { representation: 'date' });
+    const userWalletsUsedOnDate = paymentsByDate[formattedDate].userWallets;
+    Object.keys(userWalletsUsedOnDate).forEach((wallet) =>
+      uniqueUserWallets.add(wallet)
+    );
+
+    currentDate = add(currentDate, { days: 1 }); // Granularity
+  }
+  return [...uniqueUserWallets];
+};
+const uniqueUserWallets = dateRanges.map((dr) => getUniqueUserWallets(dr));
+
+const getUniquePaymentMethods = (dateRange) => {
+  const { startDate, endDate } = dateRange;
+  const uniquePaymentMethods = new Set();
+  let currentDate = startDate;
+
+  while (currentDate <= endDate) {
+    const formattedDate = formatISO(currentDate, { representation: 'date' });
+    const paymentMethodsUsedOnDate =
+      paymentsByDate[formattedDate].paymentMethods;
+    Object.keys(paymentMethodsUsedOnDate).forEach((method) =>
+      uniquePaymentMethods.add(method)
+    );
+
+    currentDate = add(currentDate, { days: 1 }); // Granularity
+  }
+  return [...uniquePaymentMethods];
+};
+const uniquePaymentMethods = dateRanges.map((dr) =>
+  getUniquePaymentMethods(dr)
+);
+
+export { tranxPercentsAndTimes, uniqueUserWallets, uniquePaymentMethods };
