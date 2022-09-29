@@ -1,4 +1,4 @@
-import paymentsByDate from './paymentsByDate';
+import paymentsByDate from './paymentsByDate.ts';
 import {
   formatISO,
   add,
