@@ -10,52 +10,6 @@ import {
   startOfDay,
 } from 'date-fns';
 
-const dateRanges = [
-  {
-    startDate: new Date('2021-01-01'),
-    endDate: new Date('2021-01-31'),
-  },
-  {
-    startDate: new Date('2021-02-01'),
-    endDate: new Date('2021-02-28'),
-  },
-  {
-    startDate: new Date('2021-03-01'),
-    endDate: new Date('2021-03-31'),
-  },
-  {
-    startDate: new Date('2021-04-01'),
-    endDate: new Date('2021-04-30'),
-  },
-  {
-    startDate: new Date('2021-05-01'),
-    endDate: new Date('2021-05-31'),
-  },
-  {
-    startDate: new Date('2021-01-01'),
-    endDate: new Date('2021-05-31'),
-  },
-];
-
-const metricDateRanges = [
-  {
-    startDate: new Date('2021-03-04'),
-    endDate: new Date('2021-03-09'),
-  },
-  {
-    startDate: new Date('2021-03-12'),
-    endDate: new Date('2021-03-30'),
-  },
-  {
-    startDate: new Date('2021-03-04'),
-    endDate: new Date('2021-05-29'),
-  },
-  {
-    startDate: new Date('2021-01-01'),
-    endDate: new Date('2021-05-31'),
-  },
-];
-
 const getFormattedTimePeriod = ({ startDate, endDate }) =>
   `${formatISO(startDate, {
     representation: 'date',
