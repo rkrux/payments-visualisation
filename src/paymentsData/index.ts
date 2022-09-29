@@ -56,7 +56,7 @@ const metricDateRanges = [
   },
 ];
 
-const calculateTranxPercentAndTime = (dateRange) => {
+const calculateTranxPercentAndAvgTime = (dateRange) => {
   const startDate = startOfDay(dateRange.startDate),
     endDate = endOfDay(dateRange.endDate);
   let currentDate = startDate,
@@ -80,10 +80,9 @@ const calculateTranxPercentAndTime = (dateRange) => {
   }
 
   return {
-    dateRange: {
-      startDate: formatISO(startDate, { representation: 'date' }),
-      endDate: formatISO(endDate, { representation: 'date' }),
-    },
+    timePeriod: `${formatISO(startDate, {
+      representation: 'date',
+    })} | ${formatISO(endDate, { representation: 'date' })}`,
     zeroConfTranxPercent: !totalTranxCount
       ? 0
       : (zeroConfTranxCountTotal * 100) / totalTranxCount,
@@ -98,9 +97,6 @@ const calculateTranxPercentAndTime = (dateRange) => {
       : onchainConfTimeSecsTotal / (onchainConfTranxCountTotal * 3600),
   };
 };
-const tranxPercentsAndTimes = dateRanges.map((dr) =>
-  calculateTranxPercentAndTime(dr)
-);
 
 const getUniqueMetricKeysInDateRange = (dateRange, metricKey) => {
   const startDate = startOfDay(dateRange.startDate),
@@ -117,12 +113,6 @@ const getUniqueMetricKeysInDateRange = (dateRange, metricKey) => {
   }
   return [...uniqueMetricKeys];
 };
-const uniqueUserWalletsInDateRange = dateRanges.map((dr) =>
-  getUniqueMetricKeysInDateRange(dr, 'userWallets')
-);
-const uniquePaymentMethodsInDateRange = dateRanges.map((dr) =>
-  getUniqueMetricKeysInDateRange(dr, 'paymentMethods')
-);
 
 const calculateQueryGranularity = (dateRange) => {
   const { startDate, endDate } = dateRange;
@@ -225,17 +215,17 @@ const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
 
   return metricsOfDateRange;
 };
-const userWalletsInDateRangeByGranularity = metricDateRanges.map((dr) =>
-  calculateMetricsOfDateRangeByGranularity(dr, 'userWallets')
-);
-const paymentMethodsInDateRangeByGranularity = metricDateRanges.map((dr) =>
-  calculateMetricsOfDateRangeByGranularity(dr, 'paymentMethods')
-);
 
-export {
-  tranxPercentsAndTimes,
-  uniqueUserWalletsInDateRange,
-  uniquePaymentMethodsInDateRange,
-  userWalletsInDateRangeByGranularity,
-  paymentMethodsInDateRangeByGranularity,
+const fetchPaymentsData = async (dateRange) => {
+  return new Promise((res, rej) => {
+    res({
+      tranxPercentsAndTimes: calculateTranxPercentAndAvgTime(dateRange),
+      userWalletsInDateRangeByGranularity:
+        calculateMetricsOfDateRangeByGranularity(dateRange, 'userWallets'),
+      paymentMethodsInDateRangeByGranularity:
+        calculateMetricsOfDateRangeByGranularity(dateRange, 'paymentMethods'),
+    });
+  });
 };
+
+export { fetchPaymentsData };
