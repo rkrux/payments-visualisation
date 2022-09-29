@@ -1,8 +1,8 @@
 import './App.css';
 import {
   tranxPercentsAndTimes,
-  uniqueUserWallets,
-  uniquePaymentMethods,
+  uniqueUserWalletsInDateRange,
+  uniquePaymentMethodsInDateRange,
   userWalletsInDateRangeByGranularity,
   paymentMethodsInDateRangeByGranularity,
 } from './paymentData/index';
@@ -20,10 +20,10 @@ function App() {
             <div>{result.onchainConfTranxAvgSpeed.toFixed(2)} hrs</div>
           </p>
         ))}
-        {uniqueUserWallets.map((userWallets) => (
+        {uniqueUserWalletsInDateRange.map((userWallets) => (
           <p>{userWallets.join(',')}</p>
         ))}
-        {uniquePaymentMethods.map((pm) => (
+        {uniquePaymentMethodsInDateRange.map((pm) => (
           <p>{pm.join(',')}</p>
         ))}
         {userWalletsInDateRangeByGranularity.map((metrics) => (

@@ -57,7 +57,8 @@ const metricDateRanges = [
 ];
 
 const calculateTranxPercentAndTime = (dateRange) => {
-  const { startDate, endDate } = dateRange;
+  const startDate = startOfDay(dateRange.startDate),
+    endDate = endOfDay(dateRange.endDate);
   let currentDate = startDate,
     zeroConfTranxCountTotal = 0,
     onchainConfTranxCountTotal = 0,
@@ -101,43 +102,26 @@ const tranxPercentsAndTimes = dateRanges.map((dr) =>
   calculateTranxPercentAndTime(dr)
 );
 
-const getUniqueUserWallets = (dateRange) => {
-  const { startDate, endDate } = dateRange;
-  const uniqueUserWallets = new Set();
-  let currentDate = startDate;
+const getUniqueMetricKeysInDateRange = (dateRange, metricKey) => {
+  const startDate = startOfDay(dateRange.startDate),
+    endDate = endOfDay(dateRange.endDate);
+  const uniqueMetricKeys = new Set();
 
+  let currentDate = startDate;
   while (currentDate <= endDate) {
     const formattedDate = formatISO(currentDate, { representation: 'date' });
-    const userWalletsUsedOnDate = paymentsByDate[formattedDate].userWallets;
-    Object.keys(userWalletsUsedOnDate).forEach((wallet) =>
-      uniqueUserWallets.add(wallet)
-    );
+    const dateMetricKeys = paymentsByDate[formattedDate][metricKey];
+    Object.keys(dateMetricKeys).forEach((dmk) => uniqueMetricKeys.add(dmk));
 
     currentDate = add(currentDate, { days: 1 }); // Granularity
   }
-  return [...uniqueUserWallets];
+  return [...uniqueMetricKeys];
 };
-const uniqueUserWallets = dateRanges.map((dr) => getUniqueUserWallets(dr));
-
-const getUniquePaymentMethods = (dateRange) => {
-  const { startDate, endDate } = dateRange;
-  const uniquePaymentMethods = new Set();
-  let currentDate = startDate;
-
-  while (currentDate <= endDate) {
-    const formattedDate = formatISO(currentDate, { representation: 'date' });
-    const paymentMethodsUsedOnDate =
-      paymentsByDate[formattedDate].paymentMethods;
-    Object.keys(paymentMethodsUsedOnDate).forEach((method) =>
-      uniquePaymentMethods.add(method)
-    );
-
-    currentDate = add(currentDate, { days: 1 }); // Granularity
-  }
-  return [...uniquePaymentMethods];
-};
-const uniquePaymentMethods = dateRanges.map((dr) =>
-  getUniquePaymentMethods(dr)
+const uniqueUserWalletsInDateRange = dateRanges.map((dr) =>
+  getUniqueMetricKeysInDateRange(dr, 'userWallets')
+);
+const uniquePaymentMethodsInDateRange = dateRanges.map((dr) =>
+  getUniqueMetricKeysInDateRange(dr, 'paymentMethods')
 );
 
 const calculateQueryGranularity = (dateRange) => {
@@ -192,11 +176,12 @@ const calculateMetricForTimePeriod = (startDate, endDate, metric) => {
 };
 
 const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
-  const endDate = endOfDay(dateRange.endDate),
+  const startDate = startOfDay(dateRange.startDate),
+    endDate = endOfDay(dateRange.endDate),
     queryGranularity = calculateQueryGranularity(dateRange),
     metricsOfDateRange = [];
 
-  let currentDate = startOfDay(dateRange.startDate);
+  let currentDate = startDate;
   while (currentDate <= endDate) {
     const endDateOfPeriod = calculateEndDateOfPeriod(
       currentDate,
@@ -229,8 +214,8 @@ const paymentMethodsInDateRangeByGranularity = metricDateRanges.map((dr) =>
 
 export {
   tranxPercentsAndTimes,
-  uniqueUserWallets,
-  uniquePaymentMethods,
+  uniqueUserWalletsInDateRange,
+  uniquePaymentMethodsInDateRange,
   userWalletsInDateRangeByGranularity,
   paymentMethodsInDateRangeByGranularity,
 };
