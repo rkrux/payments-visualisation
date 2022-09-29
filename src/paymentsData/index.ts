@@ -216,15 +216,44 @@ const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
   return metricsOfDateRange;
 };
 
+const rollUpGranularMetrics = (granularMetrics) => {
+  return granularMetrics.reduce(
+    (rolledUpMetrics, metricsForTimePeriod, index) => {
+      if (index === 0) {
+        const baseValue = { ...metricsForTimePeriod };
+        delete baseValue.timePeriod;
+        return baseValue;
+      }
+
+      Object.keys(rolledUpMetrics).forEach((metricKey) => {
+        rolledUpMetrics[metricKey] += metricsForTimePeriod[metricKey];
+      });
+      return rolledUpMetrics;
+    },
+    {}
+  );
+};
+
 const fetchPaymentsData = async (dateRange) => {
   return new Promise((res, rej) => {
-    res({
-      tranxPercentsAndTimes: calculateTranxPercentAndAvgTime(dateRange),
-      userWalletsInDateRangeByGranularity:
-        calculateMetricsOfDateRangeByGranularity(dateRange, 'userWallets'),
-      paymentMethodsInDateRangeByGranularity:
-        calculateMetricsOfDateRangeByGranularity(dateRange, 'paymentMethods'),
-    });
+    const userWalletsInDateRangeByGranularity =
+      calculateMetricsOfDateRangeByGranularity(dateRange, 'userWallets');
+    const paymentMethodsInDateRangeByGranularity =
+      calculateMetricsOfDateRangeByGranularity(dateRange, 'paymentMethods');
+
+    setTimeout(() => {
+      res({
+        tranxPercentsAndTimes: calculateTranxPercentAndAvgTime(dateRange),
+        userWalletsInDateRangeByGranularity,
+        userWalletsBreakdownInDateRange: rollUpGranularMetrics(
+          userWalletsInDateRangeByGranularity
+        ),
+        paymentMethodsInDateRangeByGranularity,
+        paymentMethodsBreakdownInDateRange: rollUpGranularMetrics(
+          paymentMethodsInDateRangeByGranularity
+        ),
+      });
+    }, 1000); // Dummy 1 sec timeout
   });
 };
 

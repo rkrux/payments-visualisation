@@ -27,7 +27,9 @@ function App() {
     <div>
       <p>{JSON.stringify(data.tranxPercentsAndTimes)}</p>
       <p>{JSON.stringify(data.userWalletsInDateRangeByGranularity)}</p>
+      <p>{JSON.stringify(data.userWalletsBreakdownInDateRange)}</p>
       <p>{JSON.stringify(data.paymentMethodsInDateRangeByGranularity)}</p>
+      <p>{JSON.stringify(data.paymentMethodsBreakdownInDateRange)}</p>
     </div>
   );
 }
