@@ -156,30 +156,47 @@ const calculateEndDateOfPeriod = (startDate, endDate, queryGranularity) => {
   return endDateOfPeriod;
 };
 
-const calculateMetricForTimePeriod = (startDate, endDate, metric) => {
+const calculateMetricsForTimePeriod = (startDate, endDate, metric) => {
   let currentDate = startDate;
-  const metricForTimePeriod = {};
+  const metricsForTimePeriod = {};
 
   while (currentDate <= endDate) {
     const formattedDate = formatISO(currentDate, { representation: 'date' });
     const dateMetrics = paymentsByDate[formattedDate][metric];
 
     Object.entries(dateMetrics).forEach(([metricKey, metricValue]) => {
-      const previousValue = metricForTimePeriod[metricKey] ?? 0;
-      metricForTimePeriod[metricKey] = previousValue + metricValue;
+      const previousValue = metricsForTimePeriod[metricKey] ?? 0;
+      metricsForTimePeriod[metricKey] = previousValue + metricValue;
     });
 
     currentDate = add(currentDate, { days: 1 });
   }
 
-  return metricForTimePeriod;
+  return metricsForTimePeriod;
+};
+
+const getBaseMetricsWithGivenKeys = (metricKeys) => {
+  return metricKeys.reduce(
+    (metricKeyValueMap, metricKey) => ({
+      ...metricKeyValueMap,
+      [metricKey]: 0,
+    }),
+    {}
+  );
+};
+
+const mergeMetricsForTimePeriod = (baseMetrics, metricsForTimePeriod) => {
+  return { ...baseMetrics, ...metricsForTimePeriod };
 };
 
 const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
   const startDate = startOfDay(dateRange.startDate),
     endDate = endOfDay(dateRange.endDate),
     queryGranularity = calculateQueryGranularity(dateRange),
-    metricsOfDateRange = [];
+    metricsOfDateRange = [],
+    baseMetricsInDateRange = getBaseMetricsWithGivenKeys(
+      getUniqueMetricKeysInDateRange(dateRange, metricKey)
+    );
 
   let currentDate = startDate;
   while (currentDate <= endDate) {
@@ -189,7 +206,7 @@ const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
       queryGranularity
     );
 
-    const metricForTimePeriod = calculateMetricForTimePeriod(
+    const metricsForTimePeriod = calculateMetricsForTimePeriod(
       currentDate,
       endDateOfPeriod,
       metricKey
@@ -197,8 +214,11 @@ const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
     metricsOfDateRange.push({
       dateRange: `${formatISO(currentDate, {
         representation: 'date',
-      })} -> ${formatISO(endDateOfPeriod, { representation: 'date' })}`,
-      ...metricForTimePeriod,
+      })} <-> ${formatISO(endDateOfPeriod, { representation: 'date' })}`,
+      ...mergeMetricsForTimePeriod(
+        baseMetricsInDateRange,
+        metricsForTimePeriod
+      ),
     });
     currentDate = add(endDateOfPeriod, { days: 1 }); // New period starts a day after end date of previous period
   }
