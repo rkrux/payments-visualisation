@@ -79,7 +79,7 @@ const calculateQueryGranularity = (dateRange) => {
   if (daysDiff >= 60) {
     return 'months';
   }
-  if (daysDiff >= 8) {
+  if (daysDiff >= 14) {
     return 'weeks';
   }
   return 'days';
