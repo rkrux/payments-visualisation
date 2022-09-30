@@ -6,7 +6,7 @@ export default function DateRange({ dateRange, updateDateRange }) {
   const [value, onChange] = useState([dateRange.startDate, dateRange.endDate]);
 
   return (
-    <div id="dateRange" className="paddedCenter">
+    <div id="dateRange">
       <div
         style={{
           display: 'flex',

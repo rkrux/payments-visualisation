@@ -3,26 +3,9 @@ import { ConfigProvider } from './configContext/index.tsx';
 import { usePaymentsQuery } from './paymentsData/index.ts';
 import { Headlines, BreakdownViz, TrendViz } from './visualisations/index.tsx';
 import DateRange from './dateRange/index.tsx';
+import LocaleSelector from './localeSelector/index.tsx';
 import { DEFAULT_DATE_RANGE } from './constants.ts';
 import './App.css';
-import { useConfig } from './configContext/index.tsx';
-
-function LocaleSelector() {
-  const [config, dispatch] = useConfig();
-
-  return (
-    <div>
-      <label>Select locale</label>
-      <select
-        value={config.locale}
-        onChange={(e) => dispatch({ type: 'locale', value: e.target.value })}
-      >
-        <option value="en-US">English (US)</option>
-        <option value="es-ES">Spanish (Spain)</option>
-      </select>
-    </div>
-  );
-}
 
 function Wrapper() {
   const [dateRange, setDateRange] = useState(DEFAULT_DATE_RANGE);
@@ -40,13 +23,22 @@ function Wrapper() {
     <div className="app">
       <div className="container">
         <h1 className="center title noMargin">Payments Visualisation</h1>
-        <div className="center">
+
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            padding: '2rem',
+          }}
+        >
           <DateRange
             dateRange={dateRange}
             updateDateRange={(dr) => setDateRange(dr)}
           />
           <LocaleSelector />
         </div>
+
         <Headlines data={data.tranxPercentsAndTimes} />
         <BreakdownViz
           id="userWalletsBreakdown"
