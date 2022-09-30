@@ -17,7 +17,7 @@ function BreakdownViz({ data, id, title }) {
   return (
     <div id={id} className="paddedCenter">
       <div className="vizSize">
-        <h3 className="center">{title}</h3>
+        <h2 className="center title">{title}</h2>
         <ResponsiveContainer width="100%" height="80%">
           <PieChart>
             <Pie
@@ -26,7 +26,7 @@ function BreakdownViz({ data, id, title }) {
               cy="50%"
               nameKey="metricKey"
               dataKey="metricValue"
-              outerRadius={90}
+              outerRadius={100}
               label
             >
               {data.map((_, index) => (
@@ -60,7 +60,7 @@ function TrendViz({ data, id, metaData }) {
   return (
     <div id={id} className="paddedCenter">
       <div className="vizSize">
-        <h3 className="center">{metaData.title}</h3>
+        <h2 className="center title">{metaData.title}</h2>
         <ResponsiveContainer width="100%" height="80%">
           <LineChart
             data={data}
@@ -83,7 +83,7 @@ function Headline({ metricKey, metricValue }) {
   return (
     <div className="headline">
       <div className="title">{metricKey}</div>
-      <div className="value">{metricValue}</div>
+      <h1 className="value">{metricValue}</h1>
     </div>
   );
 }

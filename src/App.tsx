@@ -10,16 +10,24 @@ function DateRange({ dateRange, updateDateRange }) {
 
   return (
     <div id="dateRange" className="paddedCenter">
-      <DateRangePicker
-        value={value}
-        onChange={(newDates) => {
-          onChange(newDates);
-          updateDateRange({ startDate: newDates[0], endDate: newDates[1] });
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
         }}
-        minDate={new Date('2021-01-01')}
-        maxDate={new Date('2021-05-31')}
-        clearIcon={null}
-      />
+      >
+        <span className="prompt">Select date range:</span>
+        <DateRangePicker
+          value={value}
+          onChange={(newDates) => {
+            onChange(newDates);
+            updateDateRange({ startDate: newDates[0], endDate: newDates[1] });
+          }}
+          minDate={new Date('2021-01-01')}
+          maxDate={new Date('2021-05-31')}
+          clearIcon={null}
+        />
+      </div>
     </div>
   );
 }
@@ -39,6 +47,7 @@ function App() {
   return (
     <div className="app">
       <div className="container">
+        <h1 className="center title">Payments Visualisation</h1>
         <DateRange
           dateRange={dateRange}
           updateDateRange={(dr) => setDateRange(dr)}
