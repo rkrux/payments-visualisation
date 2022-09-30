@@ -138,10 +138,13 @@ const mergeMetricsForTimePeriod = (baseMetrics, metricsForTimePeriod) => {
   return { ...baseMetrics, ...metricsForTimePeriod };
 };
 
-const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
+const calculateMetricsOfDateRangeByGranularity = (
+  dateRange,
+  queryGranularity,
+  metricKey
+) => {
   const startDate = startOfDay(dateRange.startDate),
     endDate = endOfDay(dateRange.endDate),
-    queryGranularity = calculateQueryGranularity(dateRange),
     metricsOfDateRange = [],
     baseMetricsInDateRange = getBaseMetricsWithGivenKeys(
       getUniqueMetricKeysInDateRange(dateRange, metricKey)
@@ -163,7 +166,6 @@ const calculateMetricsOfDateRangeByGranularity = (dateRange, metricKey) => {
     metricsOfDateRange.push({
       timePeriod: getFormattedTimePeriod({
         startDate: currentDate,
-        endDate: endDateOfPeriod,
       }),
       ...mergeMetricsForTimePeriod(
         baseMetricsInDateRange,
@@ -200,23 +202,33 @@ const rollUpGranularMetrics = (granularMetrics) => {
 };
 
 const fetchPaymentsData = async (dateRange) => {
-  return new Promise((res, rej) => {
-    const userWalletsInDateRangeByGranularity =
-      calculateMetricsOfDateRangeByGranularity(dateRange, 'userWallets');
+  return new Promise((res) => {
+    const queryGranularity = calculateQueryGranularity(dateRange),
+      userWalletsInDateRangeByGranularity =
+        calculateMetricsOfDateRangeByGranularity(
+          dateRange,
+          queryGranularity,
+          'userWallets'
+        );
     const paymentMethodsInDateRangeByGranularity =
-      calculateMetricsOfDateRangeByGranularity(dateRange, 'paymentMethods');
+      calculateMetricsOfDateRangeByGranularity(
+        dateRange,
+        queryGranularity,
+        'paymentMethods'
+      );
 
     setTimeout(() => {
       res({
         tranxPercentsAndTimes: calculateTranxPercentAndAvgTime(dateRange),
-        userWalletsInDateRangeByGranularity,
+        queryGranularity,
         userWalletsBreakdownInDateRange: rollUpGranularMetrics(
           userWalletsInDateRangeByGranularity
         ),
-        paymentMethodsInDateRangeByGranularity,
+        userWalletsInDateRangeByGranularity,
         paymentMethodsBreakdownInDateRange: rollUpGranularMetrics(
           paymentMethodsInDateRangeByGranularity
         ),
+        paymentMethodsInDateRangeByGranularity,
       });
     }, 1000); // Dummy 1 sec timeout
   });

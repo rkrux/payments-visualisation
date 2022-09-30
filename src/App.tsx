@@ -49,7 +49,7 @@ function Wrapper() {
           id="userWalletsTrend"
           metaData={{
             title: 'User Wallets Trend',
-            xAxis: 'Time period',
+            xAxis: `Time period (${data.queryGranularity})`,
             yAxis: 'User wallets',
           }}
           data={data.userWalletsInDateRangeByGranularity}
@@ -63,7 +63,7 @@ function Wrapper() {
           id="paymentMethodsTrend"
           metaData={{
             title: 'Payment Methods Trend',
-            xAxis: 'Time period',
+            xAxis: `Time period (${data.queryGranularity})`,
             yAxis: 'Payment methods',
           }}
           data={data.paymentMethodsInDateRangeByGranularity}
