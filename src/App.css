@@ -44,3 +44,7 @@
   font-size: 1.2em;
   font-weight: bolder;
 }
+
+.react-daterange-picker__range-divider {
+  display: none;
+}
