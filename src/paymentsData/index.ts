@@ -9,6 +9,7 @@ import {
   isBefore,
   startOfDay,
 } from 'date-fns';
+import { useQuery } from 'react-query';
 
 const getFormattedTimePeriod = ({ startDate }) =>
   `${formatISO(startDate, {
@@ -221,4 +222,11 @@ const fetchPaymentsData = async (dateRange) => {
   });
 };
 
-export { fetchPaymentsData };
+function usePaymentsQuery(dateRange) {
+  return useQuery(['payments', dateRange], async () => {
+    const data = await fetchPaymentsData(dateRange);
+    return data;
+  });
+}
+
+export { usePaymentsQuery };
