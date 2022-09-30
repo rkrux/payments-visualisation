@@ -40,6 +40,7 @@ const calculateTranxPercentAndAvgTime = (dateRange) => {
 
   return {
     timePeriod: getFormattedTimePeriod({ startDate, endDate }),
+    totalTranxCount,
     zeroConfTranxPercent: !totalTranxCount
       ? 0
       : (zeroConfTranxCountTotal * 100) / totalTranxCount,
@@ -48,10 +49,10 @@ const calculateTranxPercentAndAvgTime = (dateRange) => {
       : (onchainConfTranxCountTotal * 100) / totalTranxCount,
     zeroConfTranxAvgSpeed: !zeroConfTranxCountTotal
       ? 0
-      : zeroConfTimeSecsTotal / (zeroConfTranxCountTotal * 60),
+      : zeroConfTimeSecsTotal / (zeroConfTranxCountTotal * 60), // minutes
     onchainConfTranxAvgSpeed: !onchainConfTranxCountTotal
       ? 0
-      : onchainConfTimeSecsTotal / (onchainConfTranxCountTotal * 3600),
+      : onchainConfTimeSecsTotal / (onchainConfTranxCountTotal * 3600), // hours
   };
 };
 

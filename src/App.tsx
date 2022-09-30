@@ -78,6 +78,33 @@ function TrendViz({ data }) {
   );
 }
 
+function Headline({ metricKey, metricValue }) {
+  return <div className="headline">{`${metricKey}: ${metricValue}`}</div>;
+}
+
+function Headlines({ data }) {
+  return (
+    <div className="headlines">
+      <Headline
+        metricKey="Total Transactions"
+        metricValue={data.totalTranxCount}
+      />
+      <Headline
+        metricKey="0-Conf Transactions"
+        metricValue={`${data.zeroConfTranxPercent.toFixed(2)}%`}
+      />
+      <Headline
+        metricKey="0-Conf Transactions Avg Time"
+        metricValue={`${data.zeroConfTranxAvgSpeed.toFixed(2)} mins`}
+      />
+      <Headline
+        metricKey="On-chain Transactions Avg Time"
+        metricValue={`${data.onchainConfTranxAvgSpeed.toFixed(2)} hrs`}
+      />
+    </div>
+  );
+}
+
 function App() {
   const [dateRange, setDateRange] = useState({
     startDate: new Date('2021-03-15'),
@@ -99,7 +126,7 @@ function App() {
         dateRange={dateRange}
         updateDateRange={(dr) => setDateRange(dr)}
       />
-      <p>{JSON.stringify(data.tranxPercentsAndTimes)}</p>
+      <Headlines data={data.tranxPercentsAndTimes} />
       <TrendViz data={data.userWalletsInDateRangeByGranularity} />
       <BreakdownViz data={data.userWalletsBreakdownInDateRange} />
       <TrendViz data={data.paymentMethodsInDateRangeByGranularity} />
