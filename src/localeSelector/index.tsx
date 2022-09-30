@@ -15,8 +15,10 @@ function LocaleSelector() {
         value={config.locale}
         onChange={(e) => dispatch({ type: 'locale', value: e.target.value })}
       >
-        <option value="en-US">English (US)</option>
-        <option value="es-ES">Spanish (Spain)</option>
+        <option value="en-US">United States</option>
+        <option value="es-ES">Spain</option>
+        <option value="sv-SE">Sweden</option>
+        <option value="en-IN">India</option>
       </select>
     </div>
   );
