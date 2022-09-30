@@ -20,7 +20,15 @@ function Visualisations({ dateRange }) {
   }
 
   if (isError) {
-    return <div className="error">{JSON.stringify(error)}</div>;
+    return <div className="center title error">{JSON.stringify(error)}</div>;
+  }
+
+  if (!data.tranxPercentsAndTimes.totalTranxCount) {
+    return (
+      <h2 className="center title error">
+        No transactions in this date range!
+      </h2>
+    );
   }
 
   return (

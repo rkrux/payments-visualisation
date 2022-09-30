@@ -40,7 +40,7 @@ const calculateTranxPercentAndAvgTime = (dateRange) => {
   }
 
   return {
-    timePeriod: getFormattedTimePeriod({ startDate, endDate }),
+    timePeriod: getFormattedTimePeriod({ startDate }),
     totalTranxCount,
     zeroConfTranxPercent: !totalTranxCount
       ? 0
@@ -230,7 +230,7 @@ const fetchPaymentsData = async (dateRange) => {
         ),
         paymentMethodsInDateRangeByGranularity,
       });
-    }, 10000); // Dummy 1 sec timeout
+    }, 2000); // Dummy 1 sec timeout
   });
 };
 
