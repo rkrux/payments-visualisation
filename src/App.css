@@ -6,6 +6,8 @@
 .container {
   padding: 2rem;
   width: 60%;
+  border: 2px solid beige;
+  border-radius: 4px;
 }
 
 .center {
@@ -21,17 +23,24 @@
   padding: 1rem;
 }
 
+.vizSize {
+  height: 350px;
+  width: 90%;
+  margin-top: 1rem;
+  border: 2px solid black;
+}
+
 .headlines {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1rem;
+  padding-top: 1rem;
 }
 
 .headline {
   display: block;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 4px;
   padding: 1rem;
 }

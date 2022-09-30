@@ -8,39 +8,39 @@ import {
   Line,
   XAxis,
   YAxis,
-  ResponsiveContainer,
   Cell,
+  ResponsiveContainer,
 } from 'recharts';
 import { BASE_COLORS } from '../constants.ts';
 
 function BreakdownViz({ data, id, title }) {
   return (
     <div id={id} className="paddedCenter">
-      <div>
+      <div className="vizSize">
         <h3 className="center">{title}</h3>
-        {/* <ResponsiveContainer width="100%" height="100%"> */}
-        <PieChart width={730} height={250}>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            nameKey="metricKey"
-            dataKey="metricValue"
-            outerRadius={80}
-            fill="#8884d8"
-            label
-          >
-            {data.map((_, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={BASE_COLORS[index % BASE_COLORS.length]}
-              />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-        {/* </ResponsiveContainer> */}
+        <ResponsiveContainer width="100%" height="80%">
+          <PieChart>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              nameKey="metricKey"
+              dataKey="metricValue"
+              outerRadius={90}
+              fill="#8884d8"
+              label
+            >
+              {data.map((_, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={BASE_COLORS[index % BASE_COLORS.length]}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
@@ -60,21 +60,21 @@ function TrendViz({ data, id, title }) {
 
   return (
     <div id={id} className="paddedCenter">
-      <div>
+      <div className="vizSize">
         <h3 className="center">{title}</h3>
-        <LineChart
-          width={730}
-          height={250}
-          data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="timePeriod" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          {metricLines}
-        </LineChart>
+        <ResponsiveContainer width="100%" height="80%">
+          <LineChart
+            data={data}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="timePeriod" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            {metricLines}
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
