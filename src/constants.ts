@@ -15,4 +15,9 @@ const BASE_COLORS = [
   '#93003a',
 ];
 
-export { BASE_COLORS };
+const DEFAULT_DATE_RANGE = {
+  startDate: new Date('2021-01-01'),
+  endDate: new Date('2021-05-31'),
+};
+
+export { BASE_COLORS, DEFAULT_DATE_RANGE };

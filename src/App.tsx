@@ -2,6 +2,7 @@ import { useState } from 'react';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { usePaymentsQuery } from './paymentsData/index.ts';
 import { Headlines, BreakdownViz, TrendViz } from './visualisations/index.tsx';
+import { DEFAULT_DATE_RANGE } from './constants.ts';
 import './App.css';
 
 function DateRange({ dateRange, updateDateRange }) {
@@ -23,10 +24,7 @@ function DateRange({ dateRange, updateDateRange }) {
 }
 
 function App() {
-  const [dateRange, setDateRange] = useState({
-    startDate: new Date('2021-01-01'),
-    endDate: new Date('2021-05-31'),
-  });
+  const [dateRange, setDateRange] = useState(DEFAULT_DATE_RANGE);
   const { isLoading, isError, error, data } = usePaymentsQuery(dateRange);
 
   if (isLoading) {
