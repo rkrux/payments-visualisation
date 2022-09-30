@@ -7,14 +7,20 @@
   padding: 2rem;
   padding-bottom: 6rem;
   width: 60%;
-  border: 2px solid beige;
-  border-radius: 4px;
+  min-height: 50vh;
 }
 
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 .title {
