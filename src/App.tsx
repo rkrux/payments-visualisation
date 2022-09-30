@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import './App.css';
-import { fetchPaymentsData } from './paymentsData/index.ts';
 import { useQuery } from 'react-query';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import {
@@ -13,7 +11,12 @@ import {
   Line,
   XAxis,
   YAxis,
+  ResponsiveContainer,
+  Cell,
 } from 'recharts';
+import { fetchPaymentsData } from './paymentsData/index.ts';
+import { BASE_COLORS } from './constants.ts';
+import './App.css';
 
 function usePaymentsQuery(dateRange) {
   return useQuery(['payments', dateRange], async () => {
@@ -45,17 +48,29 @@ function BreakdownViz({ data, id, title }) {
     <div id={id} className="paddedCenter">
       <div>
         <h3 className="center">{title}</h3>
+        {/* <ResponsiveContainer width="100%" height="100%"> */}
         <PieChart width={730} height={250}>
           <Pie
             data={data}
+            cx="50%"
+            cy="50%"
             nameKey="metricKey"
             dataKey="metricValue"
-            outerRadius="100%"
+            outerRadius={80}
             fill="#8884d8"
-          />
+            label
+          >
+            {data.map((_, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={BASE_COLORS[index % BASE_COLORS.length]}
+              />
+            ))}
+          </Pie>
           <Tooltip />
           <Legend />
         </PieChart>
+        {/* </ResponsiveContainer> */}
       </div>
     </div>
   );
@@ -64,7 +79,14 @@ function BreakdownViz({ data, id, title }) {
 function TrendViz({ data, id, title }) {
   const metricLines = Object.keys(data[0])
     .filter((key) => key !== 'timePeriod')
-    .map((key) => <Line type="monotone" dataKey={key} />);
+    .map((key, index) => (
+      <Line
+        dataKey={key}
+        type="monotone"
+        activeDot={{ r: 8 }}
+        stroke={BASE_COLORS[index % BASE_COLORS.length]}
+      />
+    ));
 
   return (
     <div id={id} className="paddedCenter">
@@ -122,8 +144,8 @@ function Headlines({ data }) {
 
 function App() {
   const [dateRange, setDateRange] = useState({
-    startDate: new Date('2021-03-02'),
-    endDate: new Date('2021-03-28'),
+    startDate: new Date('2021-01-01'),
+    endDate: new Date('2021-05-31'),
   });
   const { isLoading, isError, error, data } = usePaymentsQuery(dateRange);
 
