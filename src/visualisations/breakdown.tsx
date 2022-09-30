@@ -47,7 +47,7 @@ function BreakdownViz({ data, id, title }) {
               dataKey="metricValue"
               outerRadius={100}
               label={(data) => {
-                return `${getFormattedValue(
+                return `${data.name}: ${getFormattedValue(
                   config.locale,
                   data.value
                 )} (${getFormattedValue(config.locale, data.percent * 100)}%)`;
@@ -61,7 +61,6 @@ function BreakdownViz({ data, id, title }) {
               ))}
             </Pie>
             <Tooltip content={<CustomTooltip />} />
-            <Legend />
           </PieChart>
         </ResponsiveContainer>
       </div>

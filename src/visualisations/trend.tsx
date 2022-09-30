@@ -1,12 +1,12 @@
 import {
   Tooltip,
-  Legend,
   LineChart,
   CartesianGrid,
   Line,
   XAxis,
   YAxis,
   ResponsiveContainer,
+  Label,
 } from 'recharts';
 import { getFormattedValue } from '../utils.ts';
 import { BASE_COLORS } from '../constants.ts';
@@ -40,6 +40,8 @@ const CustomTooltip = (props) => {
 };
 
 function TrendViz({ data, id, metaData }) {
+  const [config] = useConfig();
+
   const metricLines = Object.keys(data[0])
     .filter((key) => key !== 'timePeriod')
     .map((key, index) => (
@@ -55,16 +57,31 @@ function TrendViz({ data, id, metaData }) {
     <div id={id} className="paddedCenter">
       <div className="vizSize">
         <h2 className="center title">{metaData.title}</h2>
-        <ResponsiveContainer width="100%" height="80%">
+        <ResponsiveContainer width="100%" height="75%">
           <LineChart
             data={data}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="timePeriod" />
-            <YAxis />
+            <XAxis dataKey="timePeriod">
+              <Label
+                value={metaData.xAxis}
+                offset={0}
+                position="insideBottom"
+              />
+            </XAxis>
+            <YAxis
+              label={{
+                value: metaData.yAxis,
+                angle: -90,
+                position: 'insideLeft',
+                offset: -10,
+              }}
+              tickFormatter={(tickValue) =>
+                getFormattedValue(config.locale, tickValue)
+              }
+            />
             <Tooltip content={<CustomTooltip />} />
-            <Legend />
             {metricLines}
           </LineChart>
         </ResponsiveContainer>
