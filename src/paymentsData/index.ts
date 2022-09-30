@@ -10,10 +10,10 @@ import {
   startOfDay,
 } from 'date-fns';
 
-const getFormattedTimePeriod = ({ startDate, endDate }) =>
+const getFormattedTimePeriod = ({ startDate }) =>
   `${formatISO(startDate, {
     representation: 'date',
-  })} | ${formatISO(endDate, { representation: 'date' })}`;
+  })}`;
 
 const calculateTranxPercentAndAvgTime = (dateRange) => {
   const startDate = startOfDay(dateRange.startDate),
