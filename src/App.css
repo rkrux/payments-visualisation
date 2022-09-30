@@ -21,6 +21,10 @@
   font-weight: 300;
 }
 
+.noMargin {
+  margin: 0;
+}
+
 .paddedCenter {
   display: flex;
   justify-content: center;
