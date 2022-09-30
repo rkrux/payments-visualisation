@@ -12,6 +12,33 @@ import { getFormattedValue } from '../utils.ts';
 import { BASE_COLORS } from '../constants.ts';
 import { useConfig } from '../configContext/index.tsx';
 
+const CustomTooltip = (props) => {
+  const { active, payload, label } = props;
+  const [config] = useConfig();
+
+  if (active && payload && payload.length) {
+    return (
+      <div
+        style={{
+          padding: '1rem',
+          backgroundColor: 'white',
+          border: '1px solid lightgray',
+        }}
+      >
+        <span>{`${label}`}</span>
+        {payload.map((pl) => (
+          <div style={{ color: pl.color }}>{`${pl.name}: ${getFormattedValue(
+            config.locale,
+            pl.value
+          )}`}</div>
+        ))}
+      </div>
+    );
+  }
+
+  return null;
+};
+
 function TrendViz({ data, id, metaData }) {
   const metricLines = Object.keys(data[0])
     .filter((key) => key !== 'timePeriod')
@@ -36,7 +63,7 @@ function TrendViz({ data, id, metaData }) {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="timePeriod" />
             <YAxis />
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} />
             <Legend />
             {metricLines}
           </LineChart>

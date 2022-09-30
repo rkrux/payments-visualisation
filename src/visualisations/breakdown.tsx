@@ -12,8 +12,6 @@ import { useConfig } from '../configContext/index.tsx';
 
 const CustomTooltip = (props) => {
   const { active, payload } = props;
-  const [config] = useConfig();
-
   if (active && payload && payload.length) {
     return (
       <div
@@ -21,8 +19,7 @@ const CustomTooltip = (props) => {
           padding: '0.5rem',
           backgroundColor: 'white',
           color: payload[0].payload.fill,
-          border: '2px solid black',
-          borderRadius: '8px',
+          border: '1px solid lightgray',
         }}
       >
         {`${payload[0].name}`}
@@ -50,7 +47,6 @@ function BreakdownViz({ data, id, title }) {
               dataKey="metricValue"
               outerRadius={100}
               label={(data) => {
-                console.log('Label data: ', data);
                 return `${getFormattedValue(
                   config.locale,
                   data.value
