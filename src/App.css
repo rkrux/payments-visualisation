@@ -5,6 +5,7 @@
 
 .container {
   padding: 2rem;
+  padding-bottom: 6rem;
   width: 60%;
   border: 2px solid beige;
   border-radius: 4px;
@@ -24,7 +25,7 @@
 }
 
 .vizSize {
-  height: 350px;
+  height: 400px;
   width: 90%;
   margin-top: 1rem;
   border: 2px solid black;

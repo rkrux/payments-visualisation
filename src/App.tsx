@@ -18,6 +18,7 @@ function DateRange({ dateRange, updateDateRange }) {
         }}
         minDate={new Date('2021-01-01')}
         maxDate={new Date('2021-05-31')}
+        clearIcon={null}
       />
     </div>
   );
@@ -32,7 +33,7 @@ function App() {
   }
 
   if (isError) {
-    return <div>{JSON.stringify(error)}</div>;
+    return <div className="error">{JSON.stringify(error)}</div>;
   }
 
   return (
@@ -50,7 +51,11 @@ function App() {
         />
         <TrendViz
           id="userWalletsTrend"
-          title="User Wallets Trend"
+          metaData={{
+            title: 'User Wallets Trend',
+            xAxis: 'Time period',
+            yAxis: 'Number of user wallets',
+          }}
           data={data.userWalletsInDateRangeByGranularity}
         />
         <BreakdownViz
@@ -60,7 +65,11 @@ function App() {
         />
         <TrendViz
           id="paymentMethodsTrend"
-          title="Payment Methods Trend"
+          metaData={{
+            title: 'Payment Methods Trend',
+            xAxis: 'Time period',
+            yAxis: 'Number of payment methods',
+          }}
           data={data.paymentMethodsInDateRangeByGranularity}
         />
       </div>

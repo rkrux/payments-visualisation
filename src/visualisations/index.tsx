@@ -27,7 +27,6 @@ function BreakdownViz({ data, id, title }) {
               nameKey="metricKey"
               dataKey="metricValue"
               outerRadius={90}
-              fill="#8884d8"
               label
             >
               {data.map((_, index) => (
@@ -46,7 +45,7 @@ function BreakdownViz({ data, id, title }) {
   );
 }
 
-function TrendViz({ data, id, title }) {
+function TrendViz({ data, id, metaData }) {
   const metricLines = Object.keys(data[0])
     .filter((key) => key !== 'timePeriod')
     .map((key, index) => (
@@ -61,7 +60,7 @@ function TrendViz({ data, id, title }) {
   return (
     <div id={id} className="paddedCenter">
       <div className="vizSize">
-        <h3 className="center">{title}</h3>
+        <h3 className="center">{metaData.title}</h3>
         <ResponsiveContainer width="100%" height="80%">
           <LineChart
             data={data}
