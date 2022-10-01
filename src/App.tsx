@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { ConfigProvider } from './ConfigContext/index';
-import { usePaymentsQuery } from './paymentsData/index';
-import { Headlines, BreakdownViz, TrendViz } from './Visualisations/index';
-import DateRange from './DateRange/index';
-import LocaleSelector from './LocaleSelector/index';
+import { ConfigProvider } from './ConfigContext';
+import { usePaymentsQuery } from './paymentsData';
+import { Headlines, BreakdownViz, TrendViz } from './Visualisations';
+import DateRange from './DateRange';
+import LocaleSelector from './LocaleSelector';
 import { DEFAULT_DATE_RANGE } from './constants';
-import Loader from './Loader/index';
+import Loader from './Loader';
 import './App.css';
 
 function Visualisations({ dateRange }) {

@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import { getFormattedNumber, getBodyStyleByKey } from '../utils';
 import { BASE_COLORS } from '../constants';
-import { useConfig } from '../ConfigContext/index';
+import { useConfig } from '../ConfigContext';
 
 const CustomTooltip = (props) => {
   const { active, payload, label } = props;

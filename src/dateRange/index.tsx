@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-import { useConfig } from '../ConfigContext/index';
+import { useConfig } from '../ConfigContext';
 import { DEFAULT_DATE_RANGE } from '../constants';
 
 export default function DateRange({ dateRange, updateDateRange }) {

@@ -6,7 +6,7 @@ import {
   getBodyStyleByKey,
 } from '../utils';
 import { BASE_COLORS } from '../constants';
-import { useConfig } from '../ConfigContext/index';
+import { useConfig } from '../ConfigContext';
 
 const CustomTooltip = (props) => {
   const [config] = useConfig();
