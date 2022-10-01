@@ -1,5 +1,5 @@
 export const getFormattedNumber = (locale, value) =>
-  new Intl.NumberFormat(locale).format(value);
+  new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(value);
 
 export const getFormattedPercent = (locale, value) =>
   new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(value);

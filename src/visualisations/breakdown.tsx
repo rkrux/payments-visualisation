@@ -1,5 +1,9 @@
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
-import { getFormattedNumber, getFormattedPercent } from '../utils.ts';
+import {
+  getFormattedNumber,
+  getFormattedPercent,
+  getBodyStyleByKey,
+} from '../utils.ts';
 import { BASE_COLORS } from '../constants.ts';
 import { useConfig } from '../configContext/index.tsx';
 
@@ -14,6 +18,8 @@ const CustomTooltip = (props) => {
           padding: '0.5rem',
           backgroundColor: 'white',
           color: payload[0].payload.fill,
+          border: '1px solid',
+          borderColor: getBodyStyleByKey('--border-primary'),
         }}
       >
         {`${payload[0].name}:  ${getFormattedNumber(

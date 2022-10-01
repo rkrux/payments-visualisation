@@ -22,7 +22,8 @@ const CustomTooltip = (props) => {
         style={{
           padding: '1rem',
           backgroundColor: 'white',
-          border: '1px solid lightgray',
+          border: '1px solid',
+          borderColor: getBodyStyleByKey('--border-primary'),
         }}
       >
         <span>{`${label}`}</span>
