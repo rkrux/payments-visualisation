@@ -1,6 +1,6 @@
 import React from 'react';
 import { getFormattedNumber, getFormattedPercent } from '../utils';
-import { useConfig } from '../configContext/index';
+import { useConfig } from '../ConfigContext/index';
 
 function Headline({ metricKey, metricValue }) {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useConfig } from '../configContext/index';
+import { useConfig } from '../ConfigContext/index';
 
 function LocaleSelector() {
   const [config, dispatch] = useConfig();
