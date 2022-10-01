@@ -36,8 +36,10 @@ function Visualisations({ dateRange }: { dateRange: DateRangeType }) {
       <Headlines data={data.tranxPercentsAndTimes} />
       <BreakdownViz
         id="userWalletsBreakdown"
-        title="User Wallets Breakdown"
         data={data.userWalletsBreakdownInDateRange}
+        metaData={{
+          title: 'User Wallets Breakdown',
+        }}
       />
       <TrendViz
         id="userWalletsTrend"
@@ -50,8 +52,10 @@ function Visualisations({ dateRange }: { dateRange: DateRangeType }) {
       />
       <BreakdownViz
         id="paymentMethodsBreakdown"
-        title="Payment Methods Breakdown"
         data={data.paymentMethodsBreakdownInDateRange}
+        metaData={{
+          title: 'Payment Methods Breakdown',
+        }}
       />
       <TrendViz
         id="paymentMethodsTrend"

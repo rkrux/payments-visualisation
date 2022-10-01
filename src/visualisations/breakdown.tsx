@@ -7,6 +7,7 @@ import {
 } from '../utils';
 import { BASE_COLORS } from '../constants';
 import { useConfig } from '../ConfigContext';
+import { MetricKeyValueArray } from 'paymentsData';
 
 const CustomTooltip = (props) => {
   const [config] = useConfig();
@@ -34,7 +35,15 @@ const CustomTooltip = (props) => {
   return null;
 };
 
-function BreakdownViz({ data, id, title }) {
+function BreakdownViz({
+  id,
+  data,
+  metaData: { title },
+}: {
+  id: string;
+  data: MetricKeyValueArray;
+  metaData: any;
+}) {
   const [config] = useConfig();
 
   return (

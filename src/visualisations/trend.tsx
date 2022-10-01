@@ -12,6 +12,7 @@ import {
 import { getFormattedNumber, getBodyStyleByKey } from '../utils';
 import { BASE_COLORS } from '../constants';
 import { useConfig } from '../ConfigContext';
+import { DateRangeMetricsByGranularityArray } from 'paymentsData';
 
 const CustomTooltip = (props) => {
   const { active, payload, label } = props;
@@ -43,7 +44,15 @@ const CustomTooltip = (props) => {
   return null;
 };
 
-function TrendViz({ data, id, metaData }) {
+function TrendViz({
+  id,
+  data,
+  metaData: { title, xAxis, yAxis },
+}: {
+  id: string;
+  data: DateRangeMetricsByGranularityArray;
+  metaData: any;
+}) {
   const [config] = useConfig();
 
   const metricLines = Object.keys(data[0])
@@ -60,7 +69,7 @@ function TrendViz({ data, id, metaData }) {
   return (
     <div id={id} className="paddedCenter">
       <div className="vizSize">
-        <h2 className="center title">{metaData.title}</h2>
+        <h2 className="center title">{title}</h2>
         <ResponsiveContainer width="100%" height="75%">
           <LineChart
             data={data}
@@ -75,7 +84,7 @@ function TrendViz({ data, id, metaData }) {
               }}
             >
               <Label
-                value={metaData.xAxis}
+                value={xAxis}
                 offset={-2}
                 position="insideBottom"
                 fill={getBodyStyleByKey('--text-secondary')}
@@ -83,7 +92,7 @@ function TrendViz({ data, id, metaData }) {
             </XAxis>
             <YAxis
               label={{
-                value: metaData.yAxis,
+                value: yAxis,
                 angle: -90,
                 position: 'insideLeft',
                 offset: -10,
