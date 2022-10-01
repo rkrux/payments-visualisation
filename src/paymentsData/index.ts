@@ -15,11 +15,7 @@ import {
   MetricKeyValueMap,
 } from './paymentsByDate';
 import { DateRangeType } from '../constants';
-
-const getFormattedTimePeriod = ({ startDate }) =>
-  `${formatISO(startDate, {
-    representation: 'date',
-  })}`;
+import { getISOFormattedDate } from 'utils';
 
 type QueryGranularity = ReturnType<typeof calculateQueryGranularity>;
 const calculateQueryGranularity = (dateRange: DateRangeType) => {
@@ -48,7 +44,7 @@ const calculateTranxPercentAndAvgTime = (dateRange: DateRangeType) => {
     onchainConfTimeSecsTotal = 0;
 
   while (currentDate <= endDate) {
-    const formattedDate = formatISO(currentDate, { representation: 'date' });
+    const formattedDate = getISOFormattedDate(currentDate);
     const paymentsOnDate = paymentsByDate[formattedDate];
 
     totalTranxCount += paymentsOnDate.totalTranxCount;
@@ -61,7 +57,7 @@ const calculateTranxPercentAndAvgTime = (dateRange: DateRangeType) => {
   }
 
   return {
-    timePeriod: getFormattedTimePeriod({ startDate }),
+    timePeriod: getISOFormattedDate(startDate),
     totalTranxCount,
     zeroConfTranxPercent: !totalTranxCount
       ? 0
@@ -69,10 +65,10 @@ const calculateTranxPercentAndAvgTime = (dateRange: DateRangeType) => {
     onchainConfTranxPercent: !totalTranxCount
       ? 0
       : (onchainConfTranxCountTotal * 100) / totalTranxCount,
-    zeroConfTranxAvgSpeed: !zeroConfTranxCountTotal
+    zeroConfTranxAvgTime: !zeroConfTranxCountTotal
       ? 0
       : zeroConfTimeSecsTotal / (zeroConfTranxCountTotal * 60), // minutes
-    onchainConfTranxAvgSpeed: !onchainConfTranxCountTotal
+    onchainConfTranxAvgTime: !onchainConfTranxCountTotal
       ? 0
       : onchainConfTimeSecsTotal / (onchainConfTranxCountTotal * 3600), // hours
   };
@@ -88,7 +84,7 @@ const getUniqueMetricKeysInDateRange = (
 
   let currentDate = startDate;
   while (currentDate <= endDate) {
-    const formattedDate = formatISO(currentDate, { representation: 'date' });
+    const formattedDate = getISOFormattedDate(currentDate);
     const dateMetricKeys = paymentsByDate[formattedDate][metricType];
     Object.keys(dateMetricKeys).forEach((dmk) => uniqueMetricKeys.add(dmk));
 
@@ -141,7 +137,7 @@ const calculateMetricsForTimePeriod = (
   const metricsForTimePeriod: MetricKeyValueMap = {};
 
   while (currentDate <= endDate) {
-    const formattedDate = formatISO(currentDate, { representation: 'date' });
+    const formattedDate = getISOFormattedDate(currentDate);
     const dateMetrics = paymentsByDate[formattedDate][metricType];
 
     Object.entries(dateMetrics).forEach(([metricKey, metricValue]) => {
@@ -191,9 +187,7 @@ const calculateMetricsOfDateRangeByGranularity = (
       calculateMetricsForTimePeriod(currentDate, endDateOfPeriod, metricType);
 
     metricsOfDateRange.push({
-      timePeriod: getFormattedTimePeriod({
-        startDate: currentDate,
-      }),
+      timePeriod: getISOFormattedDate(currentDate),
       ...mergeMetricsForTimePeriod(
         baseMetricsInDateRange,
         metricsForTimePeriod

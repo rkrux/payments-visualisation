@@ -32,14 +32,14 @@ function Headlines({ data }: { data: DateRangeMetricsSummary }) {
         metricKey="0-Conf Avg Time"
         metricValue={`${getFormattedNumber(
           config.locale,
-          data.zeroConfTranxAvgSpeed
+          data.zeroConfTranxAvgTime
         )} mins`}
       />
       <Headline
         metricKey="On-chain Avg Time"
         metricValue={`${getFormattedNumber(
           config.locale,
-          data.onchainConfTranxAvgSpeed
+          data.onchainConfTranxAvgTime
         )} hrs`}
       />
     </div>

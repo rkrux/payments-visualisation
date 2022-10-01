@@ -59,7 +59,7 @@ function BreakdownViz({
               cy="50%"
               nameKey="metricKey"
               dataKey="metricValue"
-              outerRadius={100}
+              outerRadius="80%"
               label={(data) => {
                 return `${data.name} (${getFormattedPercent(
                   config.locale,
