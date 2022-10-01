@@ -1,3 +1,4 @@
+import { useQuery } from 'react-query';
 import paymentsByDate from './paymentsByDate';
 import {
   formatISO,
@@ -9,7 +10,6 @@ import {
   isBefore,
   startOfDay,
 } from 'date-fns';
-import { useQuery } from 'react-query';
 
 const getFormattedTimePeriod = ({ startDate }) =>
   `${formatISO(startDate, {
@@ -60,7 +60,7 @@ const calculateTranxPercentAndAvgTime = (dateRange) => {
 const getUniqueMetricKeysInDateRange = (dateRange, metricKey) => {
   const startDate = startOfDay(dateRange.startDate),
     endDate = endOfDay(dateRange.endDate);
-  const uniqueMetricKeys = new Set();
+  const uniqueMetricKeys = new Set<string>();
 
   let currentDate = startDate;
   while (currentDate <= endDate) {
@@ -86,7 +86,7 @@ const calculateQueryGranularity = (dateRange) => {
 };
 
 const calculateEndDateOfPeriod = (startDate, endDate, queryGranularity) => {
-  let endDateOfPeriod;
+  let endDateOfPeriod: Date;
   switch (queryGranularity) {
     case 'days':
       endDateOfPeriod = endOfDay(startDate);
