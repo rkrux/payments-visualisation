@@ -1,3 +1,11 @@
+body {
+  font-family: sans-serif;
+  --border-primary: lightgray;
+  --text-primary: #06283d;
+  --text-secondary: #47b5ff;
+  --text-tertiary: #256d85;
+}
+
 .app {
   display: flex;
   justify-content: center;
@@ -7,7 +15,10 @@
   padding: 2rem;
   padding-bottom: 6rem;
   width: 60%;
-  min-height: 50vh;
+  height: 100%;
+  border: 2px solid;
+  border-color: var(--border-primary);
+  border-radius: 1rem;
 }
 
 .center {
@@ -25,10 +36,11 @@
 
 .title {
   font-weight: 300;
+  color: var(--text-primary);
 }
 
 .error {
-  color: lightsalmon;
+  color: var(--text-tertiary);
 }
 
 .noMargin {
@@ -46,7 +58,9 @@
   height: 400px;
   width: 90%;
   margin-top: 1rem;
-  border: 2px solid black;
+  border: 2px solid;
+  border-color: var(--border-primary);
+  border-radius: 1rem;
 }
 
 .headlines {
@@ -59,25 +73,30 @@
 
 .headline {
   display: block;
-  border: 2px solid black;
-  border-radius: 8px;
+  border: 2px solid;
+  border-color: var(--border-primary);
+  border-radius: 1rem;
   padding: 1rem;
 }
 
 .headline .title {
-  font-size: 1em;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-secondary);
 }
 
 .headline .value {
   font-weight: 300;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  color: var(--text-tertiary);
 }
 
 .prompt {
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.2rem;
   margin-right: 8px;
+  color: var(--text-tertiary);
 }
 
 .react-daterange-picker__range-divider {

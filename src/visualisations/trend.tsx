@@ -26,12 +26,14 @@ const CustomTooltip = (props) => {
         }}
       >
         <span>{`${label}`}</span>
-        {payload.map((pl) => (
-          <div style={{ color: pl.color }}>{`${pl.name}: ${getFormattedValue(
-            config.locale,
-            pl.value
-          )}`}</div>
-        ))}
+        {payload
+          .sort((a, b) => b.value - a.value)
+          .map((pl) => (
+            <div style={{ color: pl.color }}>{`${pl.name}: ${getFormattedValue(
+              config.locale,
+              pl.value
+            )}`}</div>
+          ))}
       </div>
     );
   }

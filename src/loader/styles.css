@@ -8,7 +8,7 @@
   position: absolute;
   width: 6px;
   height: 6px;
-  background: #00adb5;
+  background: var(--text-primary);
   border-radius: 50%;
   animation: lds-default 1.2s linear infinite;
 }
