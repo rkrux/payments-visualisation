@@ -70,12 +70,12 @@ function TrendViz({ data, id, metaData }) {
               dataKey="timePeriod"
               tick={{
                 stroke: getBodyStyleByKey('--text-tertiary'),
-                strokeWidth: 0.5,
+                strokeWidth: 0.3,
               }}
             >
               <Label
                 value={metaData.xAxis}
-                offset={0}
+                offset={-2}
                 position="insideBottom"
                 fill={getBodyStyleByKey('--text-secondary')}
               />
@@ -93,7 +93,7 @@ function TrendViz({ data, id, metaData }) {
               }
               tick={{
                 stroke: getBodyStyleByKey('--text-tertiary'),
-                strokeWidth: 0.5,
+                strokeWidth: 0.3,
               }}
             />
             <Tooltip content={<CustomTooltip />} />
