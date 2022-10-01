@@ -26,7 +26,7 @@ function Visualisations({ dateRange }: { dateRange: DateRangeType }) {
   if (!data.tranxPercentsAndTimes.totalTranxCount) {
     return (
       <h2 className="center title error">
-        No transactions in this date range!
+        No transactions in this date range, try another date range!
       </h2>
     );
   }

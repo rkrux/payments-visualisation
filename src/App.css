@@ -16,9 +16,6 @@ body {
   padding-bottom: 6rem;
   width: 60%;
   min-height: 80vh;
-  border: 2px solid;
-  border-color: var(--border-primary);
-  border-radius: 1rem;
 }
 
 .center {
@@ -93,9 +90,8 @@ body {
 }
 
 .prompt {
-  font-weight: 400;
-  font-size: 1.2rem;
-  margin-right: 8px;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
   color: var(--text-tertiary);
 }
 

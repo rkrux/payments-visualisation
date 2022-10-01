@@ -8,26 +8,19 @@ export default function DateRange({ dateRange, updateDateRange }) {
   const [config] = useAppConfig();
 
   return (
-    <div id="dateRange">
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
+    <div id="dateRange" style={{ textAlign: 'center' }}>
+      <div className="prompt">Select Date Range</div>
+      <DateRangePicker
+        value={value}
+        onChange={(newDates) => {
+          onChange(newDates);
+          updateDateRange({ startDate: newDates[0], endDate: newDates[1] });
         }}
-      >
-        <span className="prompt">Select date range:</span>
-        <DateRangePicker
-          value={value}
-          onChange={(newDates) => {
-            onChange(newDates);
-            updateDateRange({ startDate: newDates[0], endDate: newDates[1] });
-          }}
-          minDate={DEFAULT_DATE_RANGE.startDate}
-          maxDate={DEFAULT_DATE_RANGE.endDate}
-          clearIcon={null}
-          locale={config.locale}
-        />
-      </div>
+        minDate={DEFAULT_DATE_RANGE.startDate}
+        maxDate={DEFAULT_DATE_RANGE.endDate}
+        clearIcon={null}
+        locale={config.locale}
+      />
     </div>
   );
 }
