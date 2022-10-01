@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
   Label,
 } from 'recharts';
-import { getFormattedValue } from '../utils.ts';
+import { getFormattedValue, getBodyStyleByKey } from '../utils.ts';
 import { BASE_COLORS } from '../constants.ts';
 import { useConfig } from '../configContext/index.tsx';
 
@@ -70,6 +70,7 @@ function TrendViz({ data, id, metaData }) {
                 value={metaData.xAxis}
                 offset={0}
                 position="insideBottom"
+                fill={getBodyStyleByKey('--text-secondary')}
               />
             </XAxis>
             <YAxis
@@ -78,6 +79,7 @@ function TrendViz({ data, id, metaData }) {
                 angle: -90,
                 position: 'insideLeft',
                 offset: -10,
+                fill: getBodyStyleByKey('--text-secondary'),
               }}
               tickFormatter={(tickValue) =>
                 getFormattedValue(config.locale, tickValue)
