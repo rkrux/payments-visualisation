@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { DEFAULT_DATE_RANGE } from '../constants.ts';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+import { useConfig } from '../configContext/index.tsx';
+import { DEFAULT_DATE_RANGE } from '../constants.ts';
 
 export default function DateRange({ dateRange, updateDateRange }) {
   const [value, onChange] = useState([dateRange.startDate, dateRange.endDate]);
+  const [config] = useConfig();
 
   return (
     <div id="dateRange">
@@ -23,6 +25,7 @@ export default function DateRange({ dateRange, updateDateRange }) {
           minDate={DEFAULT_DATE_RANGE.startDate}
           maxDate={DEFAULT_DATE_RANGE.endDate}
           clearIcon={null}
+          locale={config.locale}
         />
       </div>
     </div>
