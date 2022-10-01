@@ -8,6 +8,7 @@ import {
 import { BASE_COLORS } from '../constants';
 import { useAppConfig } from '../ConfigContext';
 import { MetricKeyValueArray } from 'paymentsData';
+import './styles.css';
 
 const CustomTooltip = (props) => {
   const [config] = useAppConfig();

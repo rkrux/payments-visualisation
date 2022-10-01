@@ -24,13 +24,6 @@ body {
   align-items: center;
 }
 
-.loaderWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
 .title {
   font-weight: 300;
   color: var(--text-primary);
@@ -51,50 +44,8 @@ body {
   padding: 1rem;
 }
 
-.vizSize {
-  height: 400px;
-  width: 90%;
-  margin-top: 1rem;
-  border: 2px solid;
-  border-color: var(--border-primary);
-  border-radius: 1rem;
-}
-
-.headlines {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-wrap: wrap;
-  padding-top: 1rem;
-}
-
-.headline {
-  display: block;
-  border: 2px solid;
-  border-color: var(--border-primary);
-  border-radius: 1rem;
-  padding: 1rem;
-}
-
-.headline .title {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--text-secondary);
-}
-
-.headline .value {
-  font-weight: 300;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  color: var(--text-tertiary);
-}
-
 .prompt {
   font-size: 1rem;
   margin-bottom: 0.2rem;
   color: var(--text-tertiary);
-}
-
-.react-daterange-picker__range-divider {
-  display: none;
 }

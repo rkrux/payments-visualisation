@@ -12,11 +12,7 @@ function Visualisations({ dateRange }: { dateRange: DateRangeType }) {
   const { isLoading, isError, error, data } = usePaymentsQuery(dateRange);
 
   if (isLoading) {
-    return (
-      <div className="loaderWrapper">
-        <Loader />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (isError) {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import { useAppConfig } from '../ConfigContext';
 import { DEFAULT_DATE_RANGE } from '../constants';
+import './styles.css';
 
 export default function DateRange({ dateRange, updateDateRange }) {
   const [value, onChange] = useState([dateRange.startDate, dateRange.endDate]);

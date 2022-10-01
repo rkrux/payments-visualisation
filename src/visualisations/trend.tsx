@@ -13,6 +13,7 @@ import { getFormattedNumber, getBodyStyleByKey } from '../utils';
 import { BASE_COLORS } from '../constants';
 import { useAppConfig } from '../ConfigContext';
 import { DateRangeMetricsByGranularityArray } from 'paymentsData';
+import './styles.css';
 
 const CustomTooltip = (props) => {
   const { active, payload, label } = props;
