@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ConfigProvider } from './ConfigContext';
+import { AppConfigProvider } from './ConfigContext';
 import { usePaymentsQuery } from './paymentsData';
 import { Headlines, BreakdownViz, TrendViz } from './Visualisations';
 import DateRange from './DateRange';
@@ -74,7 +74,7 @@ function App() {
   const [dateRange, setDateRange] = useState<DateRangeType>(DEFAULT_DATE_RANGE);
 
   return (
-    <ConfigProvider>
+    <AppConfigProvider>
       <div className="app">
         <div className="container">
           <h1 className="center title noMargin">Payments Visualisation</h1>
@@ -96,7 +96,7 @@ function App() {
           <Visualisations dateRange={dateRange} />
         </div>
       </div>
-    </ConfigProvider>
+    </AppConfigProvider>
   );
 }
 

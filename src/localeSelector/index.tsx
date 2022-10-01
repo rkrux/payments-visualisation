@@ -1,8 +1,8 @@
 import React from 'react';
-import { useConfig } from '../ConfigContext';
+import { useAppConfig } from '../ConfigContext';
 
 function LocaleSelector() {
-  const [config, dispatch] = useConfig();
+  const [config, dispatch] = useAppConfig();
 
   return (
     <div
@@ -17,8 +17,8 @@ function LocaleSelector() {
         onChange={(e) => dispatch({ type: 'locale', value: e.target.value })}
       >
         <option value="en-US">United States</option>
-        <option value="es-ES">Spain</option>
         <option value="sv-SE">Sweden</option>
+        <option value="es-ES">Spain</option>
         <option value="en-IN">India</option>
       </select>
     </div>

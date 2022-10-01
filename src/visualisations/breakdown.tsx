@@ -6,11 +6,11 @@ import {
   getBodyStyleByKey,
 } from '../utils';
 import { BASE_COLORS } from '../constants';
-import { useConfig } from '../ConfigContext';
+import { useAppConfig } from '../ConfigContext';
 import { MetricKeyValueArray } from 'paymentsData';
 
 const CustomTooltip = (props) => {
-  const [config] = useConfig();
+  const [config] = useAppConfig();
   const { active, payload } = props;
 
   if (active && payload && payload.length) {
@@ -44,7 +44,7 @@ function BreakdownViz({
   data: MetricKeyValueArray;
   metaData: any;
 }) {
-  const [config] = useConfig();
+  const [config] = useAppConfig();
 
   return (
     <div id={id} className="paddedCenter">

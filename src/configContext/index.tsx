@@ -1,8 +1,19 @@
+import { DEFAULT_APP_CONFIG } from '../constants';
 import React, { createContext, useContext, useReducer } from 'react';
 
-const ConfigContext = createContext(undefined);
+type AppConfig = {
+  locale: string;
+};
+type AppConfigAction = {
+  [k in 'type' | 'value']: string;
+};
 
-function configReducer(currentConfig, action) {
+const AppConfigContext = createContext(undefined);
+
+function appConfigReducer(
+  currentConfig: AppConfig,
+  action: AppConfigAction
+): AppConfig {
   switch (action.type) {
     case 'locale':
       return {
@@ -10,26 +21,28 @@ function configReducer(currentConfig, action) {
         locale: action.value,
       };
     default:
-      throw new Error(`Invalid type for configReducer: ${action.type}`);
+      throw new Error(`Invalid type for appConfigReducer: ${action.type}`);
   }
 }
 
-function ConfigProvider({ children }) {
-  const [config, dispatch] = useReducer(configReducer, { locale: 'en-US' });
+function AppConfigProvider({ children }): JSX.Element {
+  const [config, dispatch] = useReducer(appConfigReducer, DEFAULT_APP_CONFIG);
+
   return (
-    <ConfigContext.Provider value={[config, dispatch]}>
+    <AppConfigContext.Provider value={[config, dispatch]}>
       {children}
-    </ConfigContext.Provider>
+    </AppConfigContext.Provider>
   );
 }
 
-function useConfig() {
-  const config = useContext(ConfigContext);
+function useAppConfig(): [AppConfig, React.Dispatch<AppConfigAction>] {
+  const config = useContext(AppConfigContext);
   if (!config) {
-    throw new Error("useConfig can't be used without ConfigContext");
+    throw new Error("useAppConfig can't be used without AppConfigContext");
   }
 
   return config;
 }
 
-export { ConfigProvider, useConfig };
+export type { AppConfig };
+export { AppConfigProvider, useAppConfig };

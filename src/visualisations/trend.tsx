@@ -11,12 +11,12 @@ import {
 } from 'recharts';
 import { getFormattedNumber, getBodyStyleByKey } from '../utils';
 import { BASE_COLORS } from '../constants';
-import { useConfig } from '../ConfigContext';
+import { useAppConfig } from '../ConfigContext';
 import { DateRangeMetricsByGranularityArray } from 'paymentsData';
 
 const CustomTooltip = (props) => {
   const { active, payload, label } = props;
-  const [config] = useConfig();
+  const [config] = useAppConfig();
 
   if (active && payload && payload.length) {
     return (
@@ -53,7 +53,7 @@ function TrendViz({
   data: DateRangeMetricsByGranularityArray;
   metaData: any;
 }) {
-  const [config] = useConfig();
+  const [config] = useAppConfig();
 
   const metricLines = Object.keys(data[0])
     .filter((key) => key !== 'timePeriod')

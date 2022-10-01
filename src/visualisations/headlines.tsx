@@ -1,6 +1,6 @@
 import React from 'react';
 import { getFormattedNumber, getFormattedPercent } from '../utils';
-import { useConfig } from '../ConfigContext';
+import { useAppConfig } from '../ConfigContext';
 import { DateRangeMetricsSummary } from 'paymentsData';
 
 function Headline({ metricKey, metricValue }) {
@@ -13,7 +13,7 @@ function Headline({ metricKey, metricValue }) {
 }
 
 function Headlines({ data }: { data: DateRangeMetricsSummary }) {
-  const [config] = useConfig();
+  const [config] = useAppConfig();
 
   return (
     <div className="headlines">

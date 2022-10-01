@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-import { useConfig } from '../ConfigContext';
+import { useAppConfig } from '../ConfigContext';
 import { DEFAULT_DATE_RANGE } from '../constants';
 
 export default function DateRange({ dateRange, updateDateRange }) {
   const [value, onChange] = useState([dateRange.startDate, dateRange.endDate]);
-  const [config] = useConfig();
+  const [config] = useAppConfig();
 
   return (
     <div id="dateRange">

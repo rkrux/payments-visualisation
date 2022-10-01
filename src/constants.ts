@@ -1,3 +1,5 @@
+import { AppConfig } from 'ConfigContext';
+
 const BASE_COLORS = [
   '#1984c5',
   '#22a7f0',
@@ -20,5 +22,7 @@ const DEFAULT_DATE_RANGE = {
   endDate: new Date('2021-05-31'),
 };
 
+const DEFAULT_APP_CONFIG: AppConfig = { locale: 'en-US' };
+
 export type { DateRangeType };
-export { BASE_COLORS, DEFAULT_DATE_RANGE };
+export { BASE_COLORS, DEFAULT_DATE_RANGE, DEFAULT_APP_CONFIG };
