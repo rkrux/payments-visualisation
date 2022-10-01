@@ -29,14 +29,13 @@ const CustomTooltip = (props) => {
           borderColor: getBodyStyleByKey('--border-primary'),
         }}
       >
-        <span>{`${label}`}</span>
+        <p className="title">{label}</p>
         {payload
-          .sort((a, b) => b.value - a.value)
-          .map((pl) => (
-            <div style={{ color: pl.color }}>{`${pl.name}: ${getFormattedNumber(
-              config.locale,
-              pl.value
-            )}`}</div>
+          .sort((first, second) => second.value - first.value)
+          .map((payloadItem) => (
+            <div style={{ color: payloadItem.color }}>{`${
+              payloadItem.name
+            }: ${getFormattedNumber(config.locale, payloadItem.value)}`}</div>
           ))}
       </div>
     );

@@ -6,22 +6,39 @@ body {
   --text-tertiary: #256d85;
 }
 
-.app {
+/* Ids */
+#app {
   display: flex;
   justify-content: center;
 }
 
-.container {
+#container {
   padding: 2rem;
   padding-bottom: 6rem;
   width: 60%;
   min-height: 80vh;
 }
 
+#filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 2rem;
+}
+
+/* Classes */
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.paddedCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
 }
 
 .title {
@@ -35,13 +52,6 @@ body {
 
 .noMargin {
   margin: 0;
-}
-
-.paddedCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
 }
 
 .prompt {

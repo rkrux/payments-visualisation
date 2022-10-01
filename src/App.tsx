@@ -71,18 +71,10 @@ function App() {
 
   return (
     <AppConfigProvider>
-      <div className="app">
-        <div className="container">
+      <div id="app">
+        <div id="container">
           <h1 className="center title noMargin">Payments Visualisation</h1>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              flexWrap: 'wrap',
-              padding: '2rem',
-            }}
-          >
+          <div id="filters">
             <DateRange
               dateRange={dateRange}
               updateDateRange={(dr) => setDateRange(dr)}
