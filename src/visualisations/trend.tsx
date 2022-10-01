@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
   Label,
 } from 'recharts';
-import { getFormattedValue, getBodyStyleByKey } from '../utils.ts';
+import { getFormattedNumber, getBodyStyleByKey } from '../utils.ts';
 import { BASE_COLORS } from '../constants.ts';
 import { useConfig } from '../configContext/index.tsx';
 
@@ -29,7 +29,7 @@ const CustomTooltip = (props) => {
         {payload
           .sort((a, b) => b.value - a.value)
           .map((pl) => (
-            <div style={{ color: pl.color }}>{`${pl.name}: ${getFormattedValue(
+            <div style={{ color: pl.color }}>{`${pl.name}: ${getFormattedNumber(
               config.locale,
               pl.value
             )}`}</div>
@@ -82,7 +82,7 @@ function TrendViz({ data, id, metaData }) {
                 fill: getBodyStyleByKey('--text-secondary'),
               }}
               tickFormatter={(tickValue) =>
-                getFormattedValue(config.locale, tickValue)
+                getFormattedNumber(config.locale, tickValue)
               }
             />
             <Tooltip content={<CustomTooltip />} />

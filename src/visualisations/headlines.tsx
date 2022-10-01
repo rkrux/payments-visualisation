@@ -1,4 +1,4 @@
-import { getFormattedValue } from '../utils.ts';
+import { getFormattedNumber, getFormattedPercent } from '../utils.ts';
 import { useConfig } from '../configContext/index.tsx';
 
 function Headline({ metricKey, metricValue }) {
@@ -17,25 +17,25 @@ function Headlines({ data }) {
     <div className="headlines">
       <Headline
         metricKey="Total Transactions"
-        metricValue={getFormattedValue(config.locale, data.totalTranxCount)}
+        metricValue={getFormattedNumber(config.locale, data.totalTranxCount)}
       />
       <Headline
         metricKey="0-Conf Transactions"
-        metricValue={`${getFormattedValue(
+        metricValue={`${getFormattedPercent(
           config.locale,
           data.zeroConfTranxPercent
         )}%`}
       />
       <Headline
         metricKey="0-Conf Avg Time"
-        metricValue={`${getFormattedValue(
+        metricValue={`${getFormattedNumber(
           config.locale,
           data.zeroConfTranxAvgSpeed
         )} mins`}
       />
       <Headline
         metricKey="On-chain Avg Time"
-        metricValue={`${getFormattedValue(
+        metricValue={`${getFormattedNumber(
           config.locale,
           data.onchainConfTranxAvgSpeed
         )} hrs`}

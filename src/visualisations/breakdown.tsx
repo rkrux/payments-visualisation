@@ -1,17 +1,12 @@
-import {
-  PieChart,
-  Pie,
-  Tooltip,
-  Legend,
-  Cell,
-  ResponsiveContainer,
-} from 'recharts';
-import { getFormattedValue } from '../utils.ts';
+import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
+import { getFormattedNumber, getFormattedPercent } from '../utils.ts';
 import { BASE_COLORS } from '../constants.ts';
 import { useConfig } from '../configContext/index.tsx';
 
 const CustomTooltip = (props) => {
+  const [config] = useConfig();
   const { active, payload } = props;
+
   if (active && payload && payload.length) {
     return (
       <div
@@ -19,10 +14,12 @@ const CustomTooltip = (props) => {
           padding: '0.5rem',
           backgroundColor: 'white',
           color: payload[0].payload.fill,
-          border: '1px solid lightgray',
         }}
       >
-        {`${payload[0].name}`}
+        {`${payload[0].name}:  ${getFormattedNumber(
+          config.locale,
+          payload[0].value
+        )}`}
       </div>
     );
   }
@@ -47,10 +44,10 @@ function BreakdownViz({ data, id, title }) {
               dataKey="metricValue"
               outerRadius={100}
               label={(data) => {
-                return `${data.name}: ${getFormattedValue(
+                return `${data.name} (${getFormattedPercent(
                   config.locale,
-                  data.value
-                )} (${getFormattedValue(config.locale, data.percent * 100)}%)`;
+                  data.percent * 100
+                )}%)`;
               }}
             >
               {data.map((_, index) => (
