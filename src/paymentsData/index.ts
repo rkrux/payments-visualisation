@@ -230,7 +230,7 @@ const fetchPaymentsData = async (dateRange) => {
         ),
         paymentMethodsInDateRangeByGranularity,
       });
-    }, 2000); // Dummy 1 sec timeout
+    }, 1000); // Dummy 1 sec timeout
   });
 };
 
