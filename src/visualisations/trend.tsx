@@ -66,7 +66,13 @@ function TrendViz({ data, id, metaData }) {
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="timePeriod">
+            <XAxis
+              dataKey="timePeriod"
+              tick={{
+                stroke: getBodyStyleByKey('--text-tertiary'),
+                strokeWidth: 0.5,
+              }}
+            >
               <Label
                 value={metaData.xAxis}
                 offset={0}
@@ -85,6 +91,10 @@ function TrendViz({ data, id, metaData }) {
               tickFormatter={(tickValue) =>
                 getFormattedNumber(config.locale, tickValue)
               }
+              tick={{
+                stroke: getBodyStyleByKey('--text-tertiary'),
+                strokeWidth: 0.5,
+              }}
             />
             <Tooltip content={<CustomTooltip />} />
             {metricLines}
