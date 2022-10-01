@@ -4,18 +4,12 @@ import { usePaymentsQuery } from './paymentsData';
 import { Headlines, BreakdownViz, TrendViz } from './Visualisations';
 import DateRange from './DateRange';
 import LocaleSelector from './LocaleSelector';
-import { DEFAULT_DATE_RANGE } from './constants';
+import { DateRangeType, DEFAULT_DATE_RANGE } from './constants';
 import Loader from './Loader';
 import './App.css';
 
-function Visualisations({ dateRange }) {
-  const {
-    isLoading,
-    isError,
-    error,
-    data: result,
-  } = usePaymentsQuery(dateRange);
-  const data: any = result;
+function Visualisations({ dateRange }: { dateRange: DateRangeType }) {
+  const { isLoading, isError, error, data } = usePaymentsQuery(dateRange);
 
   if (isLoading) {
     return (
@@ -73,7 +67,7 @@ function Visualisations({ dateRange }) {
 }
 
 function App() {
-  const [dateRange, setDateRange] = useState(DEFAULT_DATE_RANGE);
+  const [dateRange, setDateRange] = useState<DateRangeType>(DEFAULT_DATE_RANGE);
 
   return (
     <ConfigProvider>

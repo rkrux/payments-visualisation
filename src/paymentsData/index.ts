@@ -1,5 +1,4 @@
-import { useQuery } from 'react-query';
-import paymentsByDate from './paymentsByDate';
+import { useQuery, UseQueryResult } from 'react-query';
 import {
   formatISO,
   add,
@@ -10,13 +9,35 @@ import {
   isBefore,
   startOfDay,
 } from 'date-fns';
+import {
+  paymentsByDate,
+  MetricTypes,
+  MetricKeyValueMap,
+} from './paymentsByDate';
+import { DateRangeType } from '../constants';
 
 const getFormattedTimePeriod = ({ startDate }) =>
   `${formatISO(startDate, {
     representation: 'date',
   })}`;
 
-const calculateTranxPercentAndAvgTime = (dateRange) => {
+type QueryGranularity = ReturnType<typeof calculateQueryGranularity>;
+const calculateQueryGranularity = (dateRange: DateRangeType) => {
+  const { startDate, endDate } = dateRange;
+  const daysDiff = differenceInDays(endDate, startDate);
+  if (daysDiff >= 60) {
+    return 'months';
+  }
+  if (daysDiff >= 14) {
+    return 'weeks';
+  }
+  return 'days';
+};
+
+type DateRangeMetricsSummary = ReturnType<
+  typeof calculateTranxPercentAndAvgTime
+>;
+const calculateTranxPercentAndAvgTime = (dateRange: DateRangeType) => {
   const startDate = startOfDay(dateRange.startDate),
     endDate = endOfDay(dateRange.endDate);
   let currentDate = startDate,
@@ -57,7 +78,10 @@ const calculateTranxPercentAndAvgTime = (dateRange) => {
   };
 };
 
-const getUniqueMetricKeysInDateRange = (dateRange, metricKey) => {
+const getUniqueMetricKeysInDateRange = (
+  dateRange: DateRangeType,
+  metricType: MetricTypes
+) => {
   const startDate = startOfDay(dateRange.startDate),
     endDate = endOfDay(dateRange.endDate);
   const uniqueMetricKeys = new Set<string>();
@@ -65,7 +89,7 @@ const getUniqueMetricKeysInDateRange = (dateRange, metricKey) => {
   let currentDate = startDate;
   while (currentDate <= endDate) {
     const formattedDate = formatISO(currentDate, { representation: 'date' });
-    const dateMetricKeys = paymentsByDate[formattedDate][metricKey];
+    const dateMetricKeys = paymentsByDate[formattedDate][metricType];
     Object.keys(dateMetricKeys).forEach((dmk) => uniqueMetricKeys.add(dmk));
 
     currentDate = add(currentDate, { days: 1 }); // Granularity
@@ -73,19 +97,11 @@ const getUniqueMetricKeysInDateRange = (dateRange, metricKey) => {
   return Array.from(uniqueMetricKeys);
 };
 
-const calculateQueryGranularity = (dateRange) => {
-  const { startDate, endDate } = dateRange;
-  const daysDiff = differenceInDays(endDate, startDate);
-  if (daysDiff >= 60) {
-    return 'months';
-  }
-  if (daysDiff >= 14) {
-    return 'weeks';
-  }
-  return 'days';
-};
-
-const calculateEndDateOfPeriod = (startDate, endDate, queryGranularity) => {
+const calculateEndDateOfPeriod = (
+  startDate: Date,
+  endDate: Date,
+  queryGranularity: QueryGranularity
+) => {
   let endDateOfPeriod: Date;
   switch (queryGranularity) {
     case 'days':
@@ -105,13 +121,28 @@ const calculateEndDateOfPeriod = (startDate, endDate, queryGranularity) => {
   return endDateOfPeriod;
 };
 
-const calculateMetricsForTimePeriod = (startDate, endDate, metric) => {
+const getBaseMetricsWithGivenKeys = (
+  uniqueMetricKeys: string[]
+): MetricKeyValueMap =>
+  uniqueMetricKeys.reduce(
+    (metricKeyValueMap, metricKey) => ({
+      ...metricKeyValueMap,
+      [metricKey]: 0,
+    }),
+    {}
+  );
+
+const calculateMetricsForTimePeriod = (
+  startDate: Date,
+  endDate: Date,
+  metricType: MetricTypes
+): MetricKeyValueMap => {
   let currentDate = startDate;
-  const metricsForTimePeriod = {};
+  const metricsForTimePeriod: MetricKeyValueMap = {};
 
   while (currentDate <= endDate) {
     const formattedDate = formatISO(currentDate, { representation: 'date' });
-    const dateMetrics = paymentsByDate[formattedDate][metric];
+    const dateMetrics = paymentsByDate[formattedDate][metricType];
 
     Object.entries(dateMetrics).forEach(([metricKey, metricValue]) => {
       const previousValue = metricsForTimePeriod[metricKey] ?? 0;
@@ -124,31 +155,29 @@ const calculateMetricsForTimePeriod = (startDate, endDate, metric) => {
   return metricsForTimePeriod;
 };
 
-const getBaseMetricsWithGivenKeys = (metricKeys) => {
-  return metricKeys.reduce(
-    (metricKeyValueMap, metricKey) => ({
-      ...metricKeyValueMap,
-      [metricKey]: 0,
-    }),
-    {}
-  );
-};
-
-const mergeMetricsForTimePeriod = (baseMetrics, metricsForTimePeriod) => {
+const mergeMetricsForTimePeriod = (
+  baseMetrics: MetricKeyValueMap,
+  metricsForTimePeriod: MetricKeyValueMap
+): MetricKeyValueMap => {
   return { ...baseMetrics, ...metricsForTimePeriod };
 };
 
+type TimePeriod = {
+  timePeriod: string;
+};
+type DateRangeMetricsByGranularity = TimePeriod | MetricKeyValueMap;
+type DateRangeMetricsByGranularityArray = DateRangeMetricsByGranularity[];
 const calculateMetricsOfDateRangeByGranularity = (
-  dateRange,
-  queryGranularity,
-  metricKey
-) => {
-  const startDate = startOfDay(dateRange.startDate),
-    endDate = endOfDay(dateRange.endDate),
-    metricsOfDateRange = [],
-    baseMetricsInDateRange = getBaseMetricsWithGivenKeys(
-      getUniqueMetricKeysInDateRange(dateRange, metricKey)
-    );
+  dateRange: DateRangeType,
+  queryGranularity: QueryGranularity,
+  metricType: MetricTypes
+): DateRangeMetricsByGranularityArray => {
+  const startDate: Date = startOfDay(dateRange.startDate),
+    endDate: Date = endOfDay(dateRange.endDate),
+    baseMetricsInDateRange: MetricKeyValueMap = getBaseMetricsWithGivenKeys(
+      getUniqueMetricKeysInDateRange(dateRange, metricType)
+    ),
+    metricsOfDateRange: DateRangeMetricsByGranularityArray = [];
 
   let currentDate = startDate;
   while (currentDate <= endDate) {
@@ -158,11 +187,9 @@ const calculateMetricsOfDateRangeByGranularity = (
       queryGranularity
     );
 
-    const metricsForTimePeriod = calculateMetricsForTimePeriod(
-      currentDate,
-      endDateOfPeriod,
-      metricKey
-    );
+    const metricsForTimePeriod: MetricKeyValueMap =
+      calculateMetricsForTimePeriod(currentDate, endDateOfPeriod, metricType);
+
     metricsOfDateRange.push({
       timePeriod: getFormattedTimePeriod({
         startDate: currentDate,
@@ -172,28 +199,37 @@ const calculateMetricsOfDateRangeByGranularity = (
         metricsForTimePeriod
       ),
     });
+
     currentDate = add(endDateOfPeriod, { days: 1 }); // New period starts a day after end date of previous period
   }
 
   return metricsOfDateRange;
 };
 
-const rollUpGranularMetrics = (granularMetrics) => {
-  const rolledUpMetricsMap = granularMetrics.reduce(
-    (rolledUpMetrics, metricsForTimePeriod, index) => {
-      if (index === 0) {
-        const baseValue = { ...metricsForTimePeriod };
-        delete baseValue.timePeriod;
-        return baseValue;
-      }
+type MetricKeyValueArray = ReturnType<typeof rollUpGranularMetrics>;
+const rollUpGranularMetrics = (
+  granularMetrics: DateRangeMetricsByGranularity[]
+) => {
+  const rolledUpMetricsMap: Omit<DateRangeMetricsByGranularity, 'timePeriod'> =
+    granularMetrics.reduce(
+      (
+        rolledUpMetrics: MetricKeyValueMap,
+        metricsForTimePeriod: DateRangeMetricsByGranularity,
+        index: number
+      ) => {
+        if (index === 0) {
+          const baseValue = { ...metricsForTimePeriod };
+          delete baseValue.timePeriod;
+          return baseValue;
+        }
 
-      Object.keys(rolledUpMetrics).forEach((metricKey) => {
-        rolledUpMetrics[metricKey] += metricsForTimePeriod[metricKey];
-      });
-      return rolledUpMetrics;
-    },
-    {}
-  );
+        Object.keys(rolledUpMetrics).forEach((metricKey) => {
+          rolledUpMetrics[metricKey] += metricsForTimePeriod[metricKey];
+        });
+        return rolledUpMetrics;
+      },
+      {}
+    );
 
   return Object.entries(rolledUpMetricsMap).map(([key, value]) => ({
     metricKey: key,
@@ -201,44 +237,64 @@ const rollUpGranularMetrics = (granularMetrics) => {
   }));
 };
 
-const fetchPaymentsData = async (dateRange) => {
-  return new Promise((res) => {
-    const queryGranularity = calculateQueryGranularity(dateRange),
-      userWalletsInDateRangeByGranularity =
-        calculateMetricsOfDateRangeByGranularity(
-          dateRange,
-          queryGranularity,
-          'userWallets'
-        );
-    const paymentMethodsInDateRangeByGranularity =
+type PaymentsQueryData = ReturnType<typeof buildPaymentsQueryData>;
+const buildPaymentsQueryData = (dateRange: DateRangeType) => {
+  const queryGranularity = calculateQueryGranularity(dateRange),
+    userWalletsInDateRangeByGranularity =
       calculateMetricsOfDateRangeByGranularity(
         dateRange,
         queryGranularity,
-        'paymentMethods'
+        'userWallets'
       );
+  const paymentMethodsInDateRangeByGranularity =
+    calculateMetricsOfDateRangeByGranularity(
+      dateRange,
+      queryGranularity,
+      'paymentMethods'
+    );
 
+  return {
+    tranxPercentsAndTimes: calculateTranxPercentAndAvgTime(dateRange),
+    queryGranularity,
+    userWalletsBreakdownInDateRange: rollUpGranularMetrics(
+      userWalletsInDateRangeByGranularity
+    ),
+    userWalletsInDateRangeByGranularity,
+    paymentMethodsBreakdownInDateRange: rollUpGranularMetrics(
+      paymentMethodsInDateRangeByGranularity
+    ),
+    paymentMethodsInDateRangeByGranularity,
+  };
+};
+
+const fetchPaymentsData = async (
+  dateRange: DateRangeType
+): Promise<PaymentsQueryData> => {
+  return new Promise((res) => {
     setTimeout(() => {
-      res({
-        tranxPercentsAndTimes: calculateTranxPercentAndAvgTime(dateRange),
-        queryGranularity,
-        userWalletsBreakdownInDateRange: rollUpGranularMetrics(
-          userWalletsInDateRangeByGranularity
-        ),
-        userWalletsInDateRangeByGranularity,
-        paymentMethodsBreakdownInDateRange: rollUpGranularMetrics(
-          paymentMethodsInDateRangeByGranularity
-        ),
-        paymentMethodsInDateRangeByGranularity,
-      });
+      res(buildPaymentsQueryData(dateRange));
     }, 1000); // Dummy 1 sec timeout
   });
 };
 
-function usePaymentsQuery(dateRange) {
+function usePaymentsQuery(
+  dateRange: DateRangeType
+): UseQueryResult<PaymentsQueryData, Error> {
   return useQuery(['payments', dateRange], async () => {
-    const data = await fetchPaymentsData(dateRange);
-    return data;
+    let data: PaymentsQueryData;
+    try {
+      data = await fetchPaymentsData(dateRange);
+      return data;
+    } catch (error) {
+      return error;
+    }
   });
 }
 
+export type {
+  PaymentsQueryData,
+  MetricKeyValueArray,
+  DateRangeMetricsSummary,
+  DateRangeMetricsByGranularityArray,
+};
 export { usePaymentsQuery };

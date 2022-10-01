@@ -1,4 +1,20 @@
-export default {
+type MetricTypes = 'userWallets' | 'paymentMethods';
+type MetricKeyValueMap = {
+  [k: string]: number;
+};
+
+type DatePayments = {
+  totalTranxCount: number;
+  zeroConfTranxCount: number;
+  zeroConfTranxTimeSecs: number;
+  onchainConfTranxCount: number;
+  onchainConfTranxTimeSecs: number;
+  userWallets: MetricKeyValueMap;
+  paymentMethods: MetricKeyValueMap;
+};
+type PaymentsByDate = Record<string, DatePayments>;
+
+const paymentsByDate: PaymentsByDate = {
   '2021-01-01': {
     totalTranxCount: 0,
     zeroConfTranxCount: 0,
@@ -1818,3 +1834,6 @@ export default {
     paymentMethods: {},
   },
 };
+
+export type { MetricTypes, MetricKeyValueMap, DatePayments, PaymentsByDate };
+export { paymentsByDate };
