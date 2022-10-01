@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Tooltip,
   LineChart,
@@ -8,9 +9,9 @@ import {
   ResponsiveContainer,
   Label,
 } from 'recharts';
-import { getFormattedNumber, getBodyStyleByKey } from '../utils.ts';
-import { BASE_COLORS } from '../constants.ts';
-import { useConfig } from '../configContext/index.tsx';
+import { getFormattedNumber, getBodyStyleByKey } from '../utils';
+import { BASE_COLORS } from '../constants';
+import { useConfig } from '../configContext/index';
 
 const CustomTooltip = (props) => {
   const { active, payload, label } = props;

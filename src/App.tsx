@@ -1,15 +1,21 @@
-import { useState } from 'react';
-import { ConfigProvider } from './configContext/index.tsx';
-import { usePaymentsQuery } from './paymentsData/index.ts';
-import { Headlines, BreakdownViz, TrendViz } from './visualisations/index.tsx';
-import DateRange from './dateRange/index.tsx';
-import LocaleSelector from './localeSelector/index.tsx';
-import { DEFAULT_DATE_RANGE } from './constants.ts';
-import Loader from './loader/index.tsx';
+import React, { useState } from 'react';
+import { ConfigProvider } from './configContext/index';
+import { usePaymentsQuery } from './paymentsData/index';
+import { Headlines, BreakdownViz, TrendViz } from './visualisations/index';
+import DateRange from './dateRange/index';
+import LocaleSelector from './localeSelector/index';
+import { DEFAULT_DATE_RANGE } from './constants';
+import Loader from './loader/index';
 import './App.css';
 
 function Visualisations({ dateRange }) {
-  const { isLoading, isError, error, data } = usePaymentsQuery(dateRange);
+  const {
+    isLoading,
+    isError,
+    error,
+    data: result,
+  } = usePaymentsQuery(dateRange);
+  const data: any = result;
 
   if (isLoading) {
     return (

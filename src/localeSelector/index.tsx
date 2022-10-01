@@ -1,4 +1,5 @@
-import { useConfig } from '../configContext/index.tsx';
+import React from 'react';
+import { useConfig } from '../configContext/index';
 
 function LocaleSelector() {
   const [config, dispatch] = useConfig();

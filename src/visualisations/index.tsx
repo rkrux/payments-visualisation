@@ -1,5 +1,5 @@
-import { BreakdownViz } from './Breakdown.tsx';
-import { TrendViz } from './Trend.tsx';
-import { Headlines } from './Headlines.tsx';
+import { BreakdownViz } from './Breakdown';
+import { TrendViz } from './Trend';
+import { Headlines } from './Headlines';
 
 export { BreakdownViz, TrendViz, Headlines };

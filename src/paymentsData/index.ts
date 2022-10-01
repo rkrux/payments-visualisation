@@ -1,4 +1,4 @@
-import paymentsByDate from './paymentsByDate.ts';
+import paymentsByDate from './paymentsByDate';
 import {
   formatISO,
   add,
@@ -70,7 +70,7 @@ const getUniqueMetricKeysInDateRange = (dateRange, metricKey) => {
 
     currentDate = add(currentDate, { days: 1 }); // Granularity
   }
-  return [...uniqueMetricKeys];
+  return Array.from(uniqueMetricKeys);
 };
 
 const calculateQueryGranularity = (dateRange) => {

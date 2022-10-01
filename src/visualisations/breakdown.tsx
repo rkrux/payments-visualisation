@@ -1,11 +1,12 @@
+import React from 'react';
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 import {
   getFormattedNumber,
   getFormattedPercent,
   getBodyStyleByKey,
-} from '../utils.ts';
-import { BASE_COLORS } from '../constants.ts';
-import { useConfig } from '../configContext/index.tsx';
+} from '../utils';
+import { BASE_COLORS } from '../constants';
+import { useConfig } from '../configContext/index';
 
 const CustomTooltip = (props) => {
   const [config] = useConfig();

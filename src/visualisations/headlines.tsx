@@ -1,5 +1,6 @@
-import { getFormattedNumber, getFormattedPercent } from '../utils.ts';
-import { useConfig } from '../configContext/index.tsx';
+import React from 'react';
+import { getFormattedNumber, getFormattedPercent } from '../utils';
+import { useConfig } from '../configContext/index';
 
 function Headline({ metricKey, metricValue }) {
   return (
