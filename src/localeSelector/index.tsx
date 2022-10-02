@@ -15,7 +15,7 @@ function LocaleSelector() {
         </span>
         <ReactTooltip id="localeInfo" type="info">
           <span>
-            All numerals in the visualisations are represented in the selected
+            All numbers in the visualisations are represented in the selected
             locale
           </span>
         </ReactTooltip>
