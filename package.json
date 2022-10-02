@@ -27,7 +27,7 @@
   "scripts": {
     "build": "react-scripts build",
     "dev": "react-scripts start",
-    "start": "npm run build && node server.js",
+    "start": "node server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
