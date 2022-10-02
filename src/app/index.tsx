@@ -42,7 +42,7 @@ function Visualisations({ dateRange }: { dateRange: DateRangeType }) {
         metaData={{
           title: 'User Wallets Trend',
           xAxis: `Time period (${data.queryGranularity})`,
-          yAxis: 'User wallets',
+          yAxis: 'User wallets count',
         }}
         data={data.userWalletsInDateRangeByGranularity}
       />
@@ -58,7 +58,7 @@ function Visualisations({ dateRange }: { dateRange: DateRangeType }) {
         metaData={{
           title: 'Payment Methods Trend',
           xAxis: `Time period (${data.queryGranularity})`,
-          yAxis: 'Payment methods',
+          yAxis: 'Payment methods count',
         }}
         data={data.paymentMethodsInDateRangeByGranularity}
       />

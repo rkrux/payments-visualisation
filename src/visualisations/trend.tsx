@@ -91,33 +91,36 @@ function TrendViz({
             <XAxis
               dataKey="timePeriod"
               tick={{
-                stroke: getBodyStyleByKey('--text-tertiary'),
-                strokeWidth: 0.3,
+                stroke: getBodyStyleByKey('--text-secondary'),
+                strokeWidth: 0.7,
               }}
             >
               <Label
                 value={xAxis}
-                offset={-2}
+                dy={6}
                 position="insideBottom"
-                fill={getBodyStyleByKey('--text-secondary')}
+                fill={getBodyStyleByKey('--text-tertiary')}
+                className="label"
               />
             </XAxis>
             <YAxis
-              label={{
-                value: yAxis,
-                angle: -90,
-                position: 'insideLeft',
-                offset: -10,
-                fill: getBodyStyleByKey('--text-secondary'),
-              }}
               tickFormatter={(tickValue) =>
                 getFormattedNumber(config.locale, tickValue)
               }
               tick={{
-                stroke: getBodyStyleByKey('--text-tertiary'),
-                strokeWidth: 0.3,
+                stroke: getBodyStyleByKey('--text-secondary'),
+                strokeWidth: 0.7,
               }}
-            />
+            >
+              <Label
+                value={yAxis}
+                angle={-90}
+                position="insideBottomLeft"
+                dx={-10}
+                fill={getBodyStyleByKey('--text-tertiary')}
+                className="label"
+              />
+            </YAxis>
             <Tooltip content={<CustomTooltip />} />
             {metricLines}
           </LineChart>
