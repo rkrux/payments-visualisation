@@ -1,6 +1,6 @@
 import React from 'react';
 import { getFormattedNumber, getFormattedPercent } from '../utils';
-import { useAppConfig } from '../ConfigContext';
+import { useAppConfig } from '../configContext';
 import { DateRangeMetricsSummary } from 'paymentsData';
 
 function Headline({ metricKey, metricValue }) {

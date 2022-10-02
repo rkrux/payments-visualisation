@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-import { useAppConfig } from '../ConfigContext';
+import { useAppConfig } from '../configContext';
 import { DEFAULT_DATE_RANGE } from '../constants';
 import './styles.css';
 import ReactTooltip from 'react-tooltip';

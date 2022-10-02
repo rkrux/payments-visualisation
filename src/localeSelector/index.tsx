@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
-import { useAppConfig } from '../ConfigContext';
+import { useAppConfig } from '../configContext';
 import './styles.css';
 
 function LocaleSelector() {

@@ -1,5 +1,5 @@
-import { BreakdownViz } from './Breakdown';
-import { TrendViz } from './Trend';
-import { Headlines } from './Headlines';
+import { BreakdownViz } from './breakdown';
+import { TrendViz } from './trend';
+import { Headlines } from './headlines';
 
 export { BreakdownViz, TrendViz, Headlines };

@@ -1,4 +1,4 @@
-import { AppConfig } from 'ConfigContext';
+import { AppConfig } from 'configContext';
 
 const BASE_COLORS = [
   '#1984c5',

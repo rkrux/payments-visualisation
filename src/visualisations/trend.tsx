@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import { getFormattedNumber, getBodyStyleByKey } from '../utils';
 import { BASE_COLORS } from '../constants';
-import { useAppConfig } from '../ConfigContext';
+import { useAppConfig } from '../configContext';
 import { DateRangeMetricsByGranularityArray } from 'paymentsData';
 import './styles.css';
 import ReactTooltip from 'react-tooltip';

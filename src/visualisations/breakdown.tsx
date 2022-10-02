@@ -6,7 +6,7 @@ import {
   getBodyStyleByKey,
 } from '../utils';
 import { BASE_COLORS } from '../constants';
-import { useAppConfig } from '../ConfigContext';
+import { useAppConfig } from '../configContext';
 import { MetricKeyValueArray } from 'paymentsData';
 import './styles.css';
 
