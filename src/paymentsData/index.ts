@@ -158,7 +158,7 @@ const mergeMetricsForTimePeriod = (
 };
 
 type TimePeriod = {
-  timePeriod: string;
+  timePeriod: Date;
 };
 type DateRangeMetricsByGranularity = TimePeriod | MetricKeyValueMap;
 type DateRangeMetricsByGranularityArray = DateRangeMetricsByGranularity[];
@@ -186,7 +186,7 @@ const calculateMetricsOfDateRangeByGranularity = (
       calculateMetricsForTimePeriod(currentDate, endDateOfPeriod, metricType);
 
     metricsOfDateRange.push({
-      timePeriod: getISOFormattedDate(currentDate),
+      timePeriod: currentDate,
       ...mergeMetricsForTimePeriod(
         baseMetricsInDateRange,
         metricsForTimePeriod

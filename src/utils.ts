@@ -13,3 +13,6 @@ export const getISOFormattedDate = (date: Date) =>
   `${formatISO(date, {
     representation: 'date',
   })}`;
+
+export const getFormattedDate = (locale: string, date: Date) =>
+  new Intl.DateTimeFormat(locale).format(date);

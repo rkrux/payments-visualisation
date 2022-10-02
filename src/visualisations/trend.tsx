@@ -10,7 +10,11 @@ import {
   Label,
 } from 'recharts';
 import ReactTooltip from 'react-tooltip';
-import { getFormattedNumber, getBodyStyleByKey } from '../utils';
+import {
+  getFormattedNumber,
+  getBodyStyleByKey,
+  getFormattedDate,
+} from '../utils';
 import { BASE_COLORS } from '../constants';
 import { useAppConfig } from '../configContext';
 import { DateRangeMetricsByGranularityArray } from 'paymentsData';
@@ -30,7 +34,7 @@ const CustomTooltip = (props) => {
           borderColor: getBodyStyleByKey('--border-primary'),
         }}
       >
-        <p className="title">{label}</p>
+        <p className="title">{getFormattedDate(config.locale, label)}</p>
         {payload
           .sort((first, second) => second.value - first.value)
           .map((payloadItem) => (
@@ -94,6 +98,9 @@ function TrendViz({
                 stroke: getBodyStyleByKey('--text-secondary'),
                 strokeWidth: 0.7,
               }}
+              tickFormatter={(tickValue) =>
+                getFormattedDate(config.locale, tickValue)
+              }
             >
               <Label
                 value={xAxis}
@@ -104,13 +111,13 @@ function TrendViz({
               />
             </XAxis>
             <YAxis
-              tickFormatter={(tickValue) =>
-                getFormattedNumber(config.locale, tickValue)
-              }
               tick={{
                 stroke: getBodyStyleByKey('--text-secondary'),
                 strokeWidth: 0.7,
               }}
+              tickFormatter={(tickValue) =>
+                getFormattedNumber(config.locale, tickValue)
+              }
             >
               <Label
                 value={yAxis}
