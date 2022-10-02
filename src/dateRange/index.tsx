@@ -12,12 +12,12 @@ export default function DateRange({ dateRange, updateDateRange }) {
   return (
     <div id="dateRange" style={{ textAlign: 'center' }}>
       <div className="prompt">
-        <span className="marginRight">Select Date Range</span>
+        <span className="marginRight">Select date range</span>
         <span data-tip data-for="dateRangeInfo">
           &#9432;
         </span>
         <ReactTooltip id="dateRangeInfo" type="info">
-          <span>Data lies between January 2021 and May 2021</span>
+          <span>Data is available from January 2021 to May 2021</span>
         </ReactTooltip>
       </div>
       <DateRangePicker
