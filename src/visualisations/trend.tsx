@@ -9,12 +9,12 @@ import {
   ResponsiveContainer,
   Label,
 } from 'recharts';
+import ReactTooltip from 'react-tooltip';
 import { getFormattedNumber, getBodyStyleByKey } from '../utils';
 import { BASE_COLORS } from '../constants';
 import { useAppConfig } from '../configContext';
 import { DateRangeMetricsByGranularityArray } from 'paymentsData';
 import './styles.css';
-import ReactTooltip from 'react-tooltip';
 
 const CustomTooltip = (props) => {
   const { active, payload, label } = props;
