@@ -10,9 +10,9 @@ function LocaleSelector() {
     <div style={{ textAlign: 'center' }}>
       <div className="prompt">
         <span className="marginRight">Select Date Range</span>
-        <a data-tip data-for="localeInfo">
+        <span data-tip data-for="localeInfo">
           &#9432;
-        </a>
+        </span>
         <ReactTooltip id="localeInfo" type="info">
           <span>
             All numerals in the visualisations are represented in the selected

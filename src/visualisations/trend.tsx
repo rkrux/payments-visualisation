@@ -72,9 +72,9 @@ function TrendViz({
       <div className="vizSize">
         <div className="center">
           <h2 className="title marginRight">{title}</h2>
-          <a data-tip data-for="granularityInfo">
+          <span data-tip data-for="granularityInfo">
             &#9432;
-          </a>
+          </span>
           <ReactTooltip id="granularityInfo" type="info">
             <span>
               Time granularity (days/weeks/months) is calculated automatically
