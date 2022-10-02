@@ -6,7 +6,7 @@ import DateRange from '../DateRange';
 import LocaleSelector from '../LocaleSelector';
 import { DateRangeType, DEFAULT_DATE_RANGE } from '../constants';
 import Loader from '../Loader';
-import './App.css';
+import './styles.css';
 
 function Visualisations({ dateRange }: { dateRange: DateRangeType }) {
   const { isLoading, isError, error, data } = usePaymentsQuery(dateRange);
