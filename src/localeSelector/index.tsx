@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
 import { useAppConfig } from '../ConfigContext';
 import './styles.css';
 
@@ -7,7 +8,18 @@ function LocaleSelector() {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div className="prompt">Select Locale</div>
+      <div className="prompt">
+        <span className="marginRight">Select Date Range</span>
+        <a data-tip data-for="localeInfo">
+          &#9432;
+        </a>
+        <ReactTooltip id="localeInfo" type="info">
+          <span>
+            All numerals in the visualisations are represented in the selected
+            locale
+          </span>
+        </ReactTooltip>
+      </div>
       <select
         value={config.locale}
         onChange={(e) => dispatch({ type: 'locale', value: e.target.value })}

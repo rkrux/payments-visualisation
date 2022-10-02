@@ -14,6 +14,7 @@ import { BASE_COLORS } from '../constants';
 import { useAppConfig } from '../ConfigContext';
 import { DateRangeMetricsByGranularityArray } from 'paymentsData';
 import './styles.css';
+import ReactTooltip from 'react-tooltip';
 
 const CustomTooltip = (props) => {
   const { active, payload, label } = props;
@@ -69,7 +70,18 @@ function TrendViz({
   return (
     <div id={id} className="paddedCenter">
       <div className="vizSize">
-        <h2 className="center title">{title}</h2>
+        <div className="center">
+          <h2 className="title marginRight">{title}</h2>
+          <a data-tip data-for="granularityInfo">
+            &#9432;
+          </a>
+          <ReactTooltip id="granularityInfo" type="info">
+            <span>
+              Time granularity (days/weeks/months) is calculated automatically
+              based on the date range size
+            </span>
+          </ReactTooltip>
+        </div>
         <ResponsiveContainer width="100%" height="75%">
           <LineChart
             data={data}
