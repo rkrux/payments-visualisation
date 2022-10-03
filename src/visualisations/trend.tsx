@@ -37,8 +37,8 @@ const CustomTooltip = (props) => {
         <p className="title">{getFormattedDate(config.locale, label)}</p>
         {payload
           .sort((first, second) => second.value - first.value)
-          .map((payloadItem) => (
-            <div style={{ color: payloadItem.color }}>{`${
+          .map((payloadItem, index: number) => (
+            <div key={index} style={{ color: payloadItem.color }}>{`${
               payloadItem.name
             }: ${getFormattedNumber(config.locale, payloadItem.value)}`}</div>
           ))}
@@ -64,6 +64,7 @@ function TrendViz({
     .filter((key) => key !== 'timePeriod')
     .map((key, index) => (
       <Line
+        key={index}
         dataKey={key}
         type="monotone"
         activeDot={{ r: 8 }}
