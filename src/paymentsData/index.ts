@@ -263,10 +263,15 @@ const buildPaymentsQueryData = (dateRange: DateRangeType) => {
 const fetchPaymentsData = async (
   dateRange: DateRangeType
 ): Promise<PaymentsQueryData> => {
-  return new Promise((res) => {
+  return new Promise((res, rej) => {
     setTimeout(() => {
-      res(buildPaymentsQueryData(dateRange));
-    }, 1000); // Dummy 1 sec timeout
+      try {
+        const data = buildPaymentsQueryData(dateRange);
+        res(data);
+      } catch (error) {
+        rej(error);
+      }
+    }, 500); // Dummy 500ms timeout
   });
 };
 
@@ -274,13 +279,7 @@ function usePaymentsQuery(
   dateRange: DateRangeType
 ): UseQueryResult<PaymentsQueryData, Error> {
   return useQuery(['payments', dateRange], async () => {
-    let data: PaymentsQueryData;
-    try {
-      data = await fetchPaymentsData(dateRange);
-      return data;
-    } catch (error) {
-      return error;
-    }
+    return fetchPaymentsData(dateRange);
   });
 }
 

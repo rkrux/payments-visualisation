@@ -4,6 +4,7 @@ body {
   --text-primary: #06283d;
   --text-secondary: #47b5ff;
   --text-tertiary: #256d85;
+  --text-accent: palevioletred;
 }
 
 /* Ids */
@@ -47,7 +48,8 @@ body {
 }
 
 .error {
-  color: var(--text-tertiary);
+  color: var(--text-accent);
+  font-weight: 600;
 }
 
 .noMargin {

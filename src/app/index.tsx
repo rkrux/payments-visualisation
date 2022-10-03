@@ -10,13 +10,14 @@ import './styles.css';
 
 function Visualisations({ dateRange }: { dateRange: DateRangeType }) {
   const { isLoading, isError, error, data } = usePaymentsQuery(dateRange);
-
   if (isLoading) {
     return <Loader />;
   }
 
   if (isError) {
-    return <div className="center title error">{JSON.stringify(error)}</div>;
+    return (
+      <div className="center title error">{`Received error: ${error}`}</div>
+    );
   }
 
   if (!data.tranxPercentsAndTimes.totalTranxCount) {
