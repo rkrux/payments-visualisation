@@ -278,9 +278,9 @@ const fetchPaymentsData = async (
 function usePaymentsQuery(
   dateRange: DateRangeType
 ): UseQueryResult<PaymentsQueryData, Error> {
-  return useQuery(['payments', dateRange], async () => {
-    return fetchPaymentsData(dateRange);
-  });
+  return useQuery(['payments', dateRange], async () =>
+    fetchPaymentsData(dateRange)
+  );
 }
 
 export type {
