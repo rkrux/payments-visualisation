@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Tooltip,
   LineChart,
@@ -23,7 +23,7 @@ import './styles.css';
 
 const CustomTooltip = (props) => {
   const { active, payload, label } = props;
-  const [config] = useAppConfig();
+  const [appConfig] = useAppConfig();
 
   if (active && payload && payload.length) {
     return (
@@ -35,13 +35,16 @@ const CustomTooltip = (props) => {
           borderColor: getBodyStyleByKey('--border-primary'),
         }}
       >
-        <p className="title">{getFormattedDate(config.locale, label)}</p>
+        <p className="title">{getFormattedDate(appConfig.locale, label)}</p>
         {payload
           .sort((first, second) => second.value - first.value)
           .map((payloadItem, index: number) => (
             <div key={index} style={{ color: payloadItem.color }}>{`${
               payloadItem.name
-            }: ${getFormattedNumber(config.locale, payloadItem.value)}`}</div>
+            }: ${getFormattedNumber(
+              appConfig.locale,
+              payloadItem.value
+            )}`}</div>
           ))}
       </div>
     );
@@ -49,6 +52,18 @@ const CustomTooltip = (props) => {
 
   return null;
 };
+
+const getMetricsKeys = (data: DateRangeMetricsByGranularityArray): string[] =>
+  Object.keys(data[0]).filter((key) => key !== 'timePeriod');
+
+const getDefaultChartConfig = (metricsKeys: string[]) =>
+  metricsKeys.reduce((map, key) => {
+    map[key] = {
+      strokeWidth: 1,
+      opacity: 1,
+    };
+    return map;
+  }, {});
 
 function TrendViz({
   id,
@@ -59,19 +74,46 @@ function TrendViz({
   data: DateRangeMetricsByGranularityArray;
   metaData: any;
 }) {
-  const [config] = useAppConfig();
+  const metricsKeys = getMetricsKeys(data);
+  const [appConfig] = useAppConfig();
+  const [chartConfig, setChartConfig] = useState(
+    getDefaultChartConfig(metricsKeys)
+  );
 
-  const metricLines = Object.keys(data[0])
-    .filter((key) => key !== 'timePeriod')
-    .map((key, index) => (
-      <Line
-        key={index}
-        dataKey={key}
-        type="monotone"
-        activeDot={{ r: 8 }}
-        stroke={BASE_COLORS[index % BASE_COLORS.length]}
-      />
-    ));
+  const handleOnMouseEnter = (o) => {
+    const { dataKey } = o;
+    setChartConfig((cc) => {
+      Object.keys(cc)
+        .filter((key) => key !== dataKey)
+        .forEach((key) => {
+          cc[key] = {
+            strokeWidth: 1,
+            opacity: 0.5,
+          };
+        });
+      cc[dataKey] = {
+        strokeWidth: 3,
+        opacity: 1,
+      };
+      return { ...cc };
+    });
+  };
+
+  const handleOnMouseLeave = (o) => {
+    setChartConfig(getDefaultChartConfig(metricsKeys));
+  };
+
+  const metricLines = metricsKeys.map((key, index) => (
+    <Line
+      key={index}
+      dataKey={key}
+      type="monotone"
+      activeDot={{ r: 8 }}
+      stroke={BASE_COLORS[index % BASE_COLORS.length]}
+      strokeWidth={chartConfig[key].strokeWidth}
+      opacity={chartConfig[key].opacity}
+    />
+  ));
 
   return (
     <div id={id} className="paddedCenter">
@@ -82,10 +124,14 @@ function TrendViz({
             &#9432;
           </span>
           <ReactTooltip id="granularityInfo" type="info">
-            <span>
+            <div>
               Time granularity (days/weeks/months) is calculated automatically
-              based on the date range size
-            </span>
+              based on the date range size.
+            </div>
+            <p>
+              Hover over the key in the legend to highlight its line in the
+              chart.
+            </p>
           </ReactTooltip>
         </div>
         <ResponsiveContainer width="100%" height="75%">
@@ -101,7 +147,7 @@ function TrendViz({
                 strokeWidth: 0.7,
               }}
               tickFormatter={(tickValue) =>
-                getFormattedDate(config.locale, tickValue)
+                getFormattedDate(appConfig.locale, tickValue)
               }
             >
               <Label
@@ -118,7 +164,7 @@ function TrendViz({
                 strokeWidth: 0.7,
               }}
               tickFormatter={(tickValue) =>
-                getFormattedNumber(config.locale, tickValue)
+                getFormattedNumber(appConfig.locale, tickValue)
               }
             >
               <Label
@@ -136,6 +182,8 @@ function TrendViz({
               wrapperStyle={{
                 paddingBottom: '1rem',
               }}
+              onMouseEnter={handleOnMouseEnter}
+              onMouseLeave={handleOnMouseLeave}
             />
             {metricLines}
           </LineChart>
