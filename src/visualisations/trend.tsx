@@ -8,6 +8,7 @@ import {
   YAxis,
   ResponsiveContainer,
   Label,
+  Legend,
 } from 'recharts';
 import ReactTooltip from 'react-tooltip';
 import {
@@ -130,6 +131,12 @@ function TrendViz({
               />
             </YAxis>
             <Tooltip content={<CustomTooltip />} />
+            <Legend
+              verticalAlign="top"
+              wrapperStyle={{
+                paddingBottom: '1rem',
+              }}
+            />
             {metricLines}
           </LineChart>
         </ResponsiveContainer>
