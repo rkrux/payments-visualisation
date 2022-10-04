@@ -9,5 +9,6 @@ A single page app that visualises payment data over time by using different kind
 ```
 
 ### Preview
-![payments-visualisation](https://user-images.githubusercontent.com/5960750/193532179-47caf2cc-f74b-421b-9bef-53057767dc2f.png)
+![payments-visualisation](https://user-images.githubusercontent.com/5960750/193805167-618e6d88-28ab-4a12-a4fb-efb360223547.png)
+
 
